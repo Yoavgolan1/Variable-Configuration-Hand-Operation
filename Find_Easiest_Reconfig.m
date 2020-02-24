@@ -1,6 +1,11 @@
 function [Best_Config, Distance_Instructions] = Find_Easiest_Reconfig(Hand_Configuration, Possible_Hand_Configs)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%FIND_EASIEST_RECONFIG takes a list of hand centers, and finds the one that
+%requires the least adjustments to achieve as a hand structure.
+%   A hand center, along with fingertip placements, describes a hand
+%   structure. Given multiple hand structures, and the initial hand
+%   configuration, we check which of the hand configurations requires the
+%   least time to adjust to (least number of distance changes). Special
+%   structures are given priority.
 
 N_Fingers = length(Possible_Hand_Configs(1).Distances);
 N_Configs = length(Possible_Hand_Configs);

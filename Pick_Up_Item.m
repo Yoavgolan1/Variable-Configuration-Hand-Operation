@@ -1,6 +1,10 @@
 function [] = Pick_Up_Item(Active_Object,a)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+%PICK_UP_ITEM commands the system to pick up a specific item.
+%   This function works in either simulation or run-on-robot mode. Note
+%   that the object in the simulation is not oriented correctly. To do
+%   this, the model needs to be manually calibrated to settle it's angle
+%   respective to the hand (will be done for some objects in future
+%   versions).
 global robot safe_height Neutral_Position tool Normal_Speed Slow_Speed Grasp_Finger_Placements
 
 Base_Finger_XY_Rel = Grasp_Finger_Placements(1,:);

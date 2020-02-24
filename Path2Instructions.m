@@ -1,6 +1,6 @@
 function Instructions = Path2Instructions(Hand_Configuration,Path)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+%PATH2INSTRUCTINOS takes a distance change list, and transforms in into a
+%cleaner list of instructions the system can follow.
 global Hand_Center_Finger_Center_Dist
 Start = Hand_Configuration.Distances - Hand_Center_Finger_Center_Dist;
 N_Steps = length(Path);

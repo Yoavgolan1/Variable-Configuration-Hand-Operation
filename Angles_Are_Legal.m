@@ -1,6 +1,6 @@
 function [Legal_Angles] = Angles_Are_Legal(Angles,Finger_Combs)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+%ANGLES_ARE_LEGAL checks if the angles are ordered.
+
 Buffer = 45;
 Legal_Angles = true;
 

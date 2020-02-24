@@ -1,6 +1,8 @@
 function [Exists] = Check_Angle_Movement(Current_Angles,Goal_Angles,N)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%CHECK_ANGLE_MOVEMENT checks if a digit can be moved to its target
+%   A finger cannot be moved if another finger is in its way. There is
+%   always at least one finger that can be moved to its target
+%   angle.
 N_Fingers = numel(Goal_Angles)+1;
 COMB = nchoosek(1:N_Fingers-1,2);
 Buffer = 45;

@@ -1,6 +1,9 @@
 function [Hand_Center, Finger_Placements] = Best_Grasp_That_Works(Sorted_List_Of_Grasps,r_min,r_max)
-%UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+%BEST_GRASP_THAT_WORKS takes finger placements and returns the best one
+%that works with the hand geometry
+%   Given a sorted list of possible grasp configurations (best to worst),
+%   the function tries to find the first grasp configuration that is viable
+%   considering the hand geometry.
 global Polygon Hand_Center_Finger_Center_Dist
 if nargin<3
     r_min = Hand_Center_Finger_Center_Dist;
@@ -25,7 +28,6 @@ for ii=1:N_Configs
     if max(Distances)>2*r_max %If two fingers are too far apart
         continue;
     end
-    
     
     Point_Found = false;
     Give_Up = false;

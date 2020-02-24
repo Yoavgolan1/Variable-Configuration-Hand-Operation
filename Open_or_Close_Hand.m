@@ -1,6 +1,11 @@
 function Amount_Opened = Open_or_Close_Hand(a,cmd,close_amount)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+%OPEN_OR_CLOSE_HAND extends or retracts the hand digits.
+%   This function works in either simulation or run-on-robot mode. The
+%   function recieves an "OPEN", "CLOSE" or "FORCE_CLOSE" command, and the amount to open
+%   or close in mm. If no amount is given, the function uses the current
+%   hand configuration to open a standard distance. "FORCE_CLOSE"
+%   over-closes the hand, to avoid grasp uncertainty. This mode may harm
+%   the object/hand.
 if nargin<3
     close_amount = 0;
 end

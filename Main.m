@@ -28,7 +28,6 @@ robot.MoveJ(Camera_Position);
 %Take a picture of the object
 if isequal(MODE,'REAL_ROBOT')
     cam = webcam();
-    %cam.Resolution = '640x480';
     snap = takeSnapshot(cam); %Requires MATLAB Webcam Addon
 else % SIMULATION MODE
     snap = imread('Mustard.jpg');
@@ -36,7 +35,6 @@ end
 
 %Convert the picture into a polygon
 [P1.Vertex, normpolyfactor,Centroid] = img2poly(snap,0.02,640/48,1);
-%P1.Vertex = unique(P1.Vertex,'rows');
 Poly_Center = mean(P1.Vertex); %Center of the polygon in camera frame
 P1.Vertex = (1/normpolyfactor)*(P1.Vertex - Poly_Center); %Zero the polygon center and rescale it
 Poly_Center = Poly_Center/normpolyfactor;

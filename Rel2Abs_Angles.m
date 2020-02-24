@@ -1,6 +1,9 @@
 function [Abs_Angles] = Rel2Abs_Angles(Rel_Angles)
-%UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+%REL2ABS_ANGLES takes relative finger angles and converts them to absolute.
+%   Relative angles are the angles between each pair of adjacent fingers.
+%   Absolute angles are the angles of each indinivual finger relative to
+%   the thumb at 0. For example, [30 90 210] will be transformed into [30
+%   120].
 [N_Options, N_Fingers] = size(Rel_Angles);
 
 Abs_Angles = zeros(N_Options,N_Fingers);

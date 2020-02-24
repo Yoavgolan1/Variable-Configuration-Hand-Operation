@@ -1,6 +1,10 @@
 function [Sorted_List_Of_Grasps] = Monte_Carlo_Grasp_Configurations(Number_Of_Fingers,Polygon2,Friction_Coefficient,Bets,Division,Quality_Measure)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+%MONTE_CARLO_GRASP_CONFIGURATIONS tests grasp configurations on a polygon
+%   Given a polygon, a number of fingertips, a number of bets, a search resolution, the friction
+%   coefficient, and the quality measure- grasps are randomly sampled. Each
+%   grasp is measued using the quality metric, assuming the given friction.
+%   All of the valid grasps (out of the "bets" tried) are sorted by their
+%   grasp quality.
 global Polygon
 Polygon = Polygon2;
 if nargin<6 || (Quality_Measure ~= "SPHERE_VOLUME")

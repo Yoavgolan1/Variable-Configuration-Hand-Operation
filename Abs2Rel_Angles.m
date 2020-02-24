@@ -1,6 +1,6 @@
 function [Rel_Angles] = Abs2Rel_Angles(Abs_Angles)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%ABS2REL_ANGLES converts digit absolute angles into relative angles in rad
+%   For example, [45 180] will be converted to [0.7854; 2.3562; 3.1416]
 N_Fingers = length(Abs_Angles)+1;
 Rel_Angles = zeros(N_Fingers,1);
 Abs_Angles = [0,Abs_Angles,360];

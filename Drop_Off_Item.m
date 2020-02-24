@@ -1,6 +1,7 @@
 function [] = Drop_Off_Item(Object,a, Location)
-%UNTITLED6 Summary of this function goes here
-%   Detailed explanation goes here
+%DROP_OFF_ITEM manipulates the robotic hand towards the dropoff point and
+%releases the grasped item.
+%   This function works in either simulation or run-on-robot mode.
 global robot RDK station Normal_Speed Slow_Speed safe_height Neutral_Position
 if nargin < 3
     Location = transl(-540,-900,20);

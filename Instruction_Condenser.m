@@ -1,6 +1,6 @@
 function Short_Instructions = Instruction_Condenser(Instructions)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+%INSTRUCTIONS_CONDENSER shortens the instructions
+%   This function is deprecated, and unused in the current version
 global Hand_Configuration
 N_Instructions = length(Instructions);
 Short_Instructions = [];

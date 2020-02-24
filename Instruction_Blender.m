@@ -1,8 +1,10 @@
 function Instructions = Instruction_Blender(Distance_Instructions,Hand_Configuration,Goal_Angles)
-%UNTITLED7 Summary of this function goes here
-%   Detailed explanation goes here
+%INSTRUCTION_BLENDER takes the fingertip distance changes needed, the start
+%angle configuration and the goal angle configuration. It produces a list
+%of instructions to adjust the hand structure to its goal.
+%   Priority is given to distance instructions. Angle adjustments are made
+%   opportunistically.
 Instructions = [];
-%N_Fingers = (size(Angle_Instruction_Options,2)-1)/2 + 1;
 
 Current_Angles = Hand_Configuration.Angles;
 N_Fingers = numel(Current_Angles);
@@ -10,16 +12,8 @@ N_Fingers = numel(Current_Angles);
 Current_Angles = Rel2Abs_Angles(Current_Angles');
 Goal_Angles = Rel2Abs_Angles(Goal_Angles');
 
-%Angle_Combos = Angle_Instruction_Options(:,1:N_Fingers-1);
-%ChangeMat = Angle_Instruction_Options(:,N_Fingers:end-1);
-%Validity_Vector = Angle_Instruction_Options(:,end);
-
 Dist_Change_IDS = Distance_Instructions(:,end);
-%Finger_Presses = nonzeros(Dist_Change_IDS);
-
-%N_Angle_Changes = N_Fingers-1;
 N_Distance_Changes = numel(Dist_Change_IDS);
-%N_Presses = numel(Finger_Presses);
 Fingers_To_Change = 1:N_Fingers-1;
 
 for ii=1:N_Distance_Changes

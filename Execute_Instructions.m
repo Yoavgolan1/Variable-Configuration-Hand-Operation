@@ -1,6 +1,11 @@
 function [] = Execute_Instructions(Instructions, Environment_Type, a)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%EXECUTE_INSTRUCTIONS takes a list of hand adjustment commands and executes
+%them
+%   Commands can be executed in simulation only, or on the real world.
+%   COmmands are "ROTATE_HAND", "PRESS_FINGER", "UNPRESS_FINGER", and
+%   "CHANGE_DIST". The user can choose what type of environment the robot
+%   will adjust the hand against- "ROBOT_BODY" to adjust against the
+%   robot's base, or "WALL" to adjust against the nearby wall.
 global Normal_Speed Slow_Speed Neutral_Position RDK robot Hand_Configuration MODE tool station
 if nargin < 3
     a = [];

@@ -1,6 +1,6 @@
 function [Hand_Configs] = Grasp_To_Hand_Config(Hand_Centers,Finger_Placements)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+%GRASP_TO_HAND_CONFIG transforms a hand center and finger placements to a
+%hand structure, comprised of finger angles and fingertip distances.
 
 N_Fingers = size(Finger_Placements,1);
 N_Centers = size(Hand_Centers,1);
