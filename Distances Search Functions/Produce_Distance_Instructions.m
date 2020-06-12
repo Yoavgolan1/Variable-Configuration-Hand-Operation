@@ -24,7 +24,7 @@ Movement_Vectors = Create_Movement_Vectors(Dimension);
 
 %Start = Create_Random_Point(Dimension, Borders);
 %Target = Create_Random_Point(Dimension, Borders);
-%Start = [139,71.5,172]; Target = [6,90,81];
+Start = [0.6659  106.0151  110.7207]; Target = [124.8314   29.3724   64.3759];
 
 Target_HyperPlanes = Create_Target_Hyperplanes(Target, Movement_Vectors);
 Border_HyperPlanes = Create_Border_Hyperplanes(Borders);

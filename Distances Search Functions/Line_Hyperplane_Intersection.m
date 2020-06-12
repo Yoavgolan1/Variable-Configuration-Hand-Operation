@@ -9,7 +9,7 @@ HP_Origin = HyperPlane(1:Dim);
 HP_Normal = HyperPlane(Dim+1:end);
 
 
-if Are_Perpendicular(Line_Direction,HP_Normal) %If the line isparallel to the hyperplane, or inside it
+if Are_Perpendicular(Line_Direction,HP_Normal) %If the line is parallel to the hyperplane, or inside it
     Intersection_Point = [];
     return
 end
