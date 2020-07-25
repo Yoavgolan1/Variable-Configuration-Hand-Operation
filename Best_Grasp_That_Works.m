@@ -4,7 +4,7 @@ function [Hand_Center, Finger_Placements] = Best_Grasp_That_Works(Sorted_List_Of
 %   Given a sorted list of possible grasp configurations (best to worst),
 %   the function tries to find the first grasp configuration that is viable
 %   considering the hand geometry.
-global Polygon Hand_Center_Finger_Center_Dist
+global Polygon Hand_Center_Finger_Center_Dist 
 if nargin<3
     r_min = Hand_Center_Finger_Center_Dist;
     r_max = r_min+144.44;
@@ -43,6 +43,12 @@ for ii=1:N_Configs
             
         elseif kk==1 && N_Fingers == 3 %Try special hand center for 3 fingers
             [point(1),point(2)] = Circle_Center_From_3_Points(Finger_Places);
+            
+        elseif kk==1 && N_Fingers == 4 %Try special hand center for 4 fingers
+            %This requires the first grasp to be rectangular, otherwise it
+            %doesn't do much
+            point(1) = mean(Finger_Places(:,1));
+            point(2) = mean(Finger_Places(:,2));
         end
         
         % Distance tests
