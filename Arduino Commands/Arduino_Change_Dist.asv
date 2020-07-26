@@ -26,13 +26,12 @@ encoder = rotaryEncoder(a,ENC_A_PIN,ENC_B_PIN,ppr);
 [count,~] = readCount(encoder,'Reset',true);
 Init_count = count;
 
-Required_distance = abs(delta*ticks_per_mm)
+Required_distance = abs(delta*ticks_per_mm);
 tic
 writePWMVoltage(a,MOTOR_ACTIVATION_PIN,2.5);
 while abs(Init_count-count)<Required_distance
     [count,~] = readCount(encoder);
-    %abs(readSpeed(encoder))
-    count;
+    abs(readSpeed(encoder))
     %     BP = Any_Buton_Pressed(a);
     %     if BP
     %         %warning(['Button pressed: ',BP])

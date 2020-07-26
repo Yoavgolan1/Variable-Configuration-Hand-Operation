@@ -13,12 +13,15 @@ global Hand_Configuration Hand_Center_Finger_Center_Dist
 r_min = Hand_Center_Finger_Center_Dist;
 r_max = r_min+144.44;
 Amount_Opened = [];
-if isequal(cmd,'OPEN')
+if isequal(cmd,'OPEN') && close_amount == 0
     Largest_Dist = max(Hand_Configuration.Distances);
     Room_To_Move = r_max - Largest_Dist;
     Amount_Opened = Room_To_Move/2;
     This_Instruction{1}.Command = 'CHANGE_DIST';
     This_Instruction{1}.Value = Amount_Opened;
+elseif isequal(cmd,'OPEN') && close_amount ~= 0
+    This_Instruction{1}.Command = 'CHANGE_DIST';
+    This_Instruction{1}.Value = close_amount;
 elseif isequal(cmd,'CLOSE')
     This_Instruction{1}.Command = 'CHANGE_DIST';
     This_Instruction{1}.Value = -close_amount;
