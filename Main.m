@@ -1,13 +1,14 @@
 %% Initialization
 clear all
 close all
-global Hand_Configuration MODE Grasp_Finger_Placements Best_Config Hand_Center_Finger_Center_Dist Finger_Radius
+global Hand_Configuration MODE Grasp_Finger_Placements Best_Config Hand_Center_Finger_Center_Dist Finger_Radius N_Fingers
 
 % The initial hand configuration
+N_Fingers = 4;
 Finger_Radius = 10; %mm
 Hand_Center_Finger_Center_Dist = 70; %Constant, dependent of finger type
-Hand_Configuration.Distances = [94; 50; 60]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
-Hand_Configuration.Angles = deg2rad([45; 45; 270]); %Initial angles, relative %was 45 45 270???
+Hand_Configuration.Distances = [94; 50; 60; 30]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
+Hand_Configuration.Angles = deg2rad([45; 45; 90; 180]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
 
@@ -41,7 +42,7 @@ Poly_Center = Poly_Center/normpolyfactor;
 Pickup_Zero_Point = [-350,-625]; Object_Center = Pickup_Zero_Point + [Centroid(1),-Centroid(2)];
 
 %% Search for grasps, hand formation instructions
-MyConfigs = Monte_Carlo_Grasp_Configurations(3,P1,0.01,50000,0.02,"SPHERE_VOLUME");
+MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,5000,0.02,"SPHERE_VOLUME");
 [Grasp_Center, Grasp_Finger_Placements] = Best_Grasp_That_Works(MyConfigs);
 plot(Grasp_Center(:,1),Grasp_Center(:,2),'.b');
 Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placements);

@@ -1,6 +1,12 @@
 function [IsPossible, N_Steps, Instructions] = Produce_Distance_Instructions(Hand_Configuration, This_Config_Distances, Lowest_N_Steps)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%PRODUCE_DISTANCE_INSTRUCTIONS (DEPRECATED) is the main hand structure
+%planning function
+%   The function receives start and target fingertip distance vectors, and
+%   finds an optimal path (with the lease finger presses) between them.
+%   This function is DEPRECATED, because it uses the older method of
+%   dimensional unfolding, which has not been extended beyond 3 dimensions.
+%   Instead, use PRODUCE_DISTANCE_INSTRUCTIONS_VEC_DECOMP, which uses the
+%   Vector Decomposition method for any dimension.
 global Hand_Center_Finger_Center_Dist
 N_Fingers = length(Hand_Configuration.Distances);
 if N_Fingers ~=3
@@ -24,7 +30,7 @@ Movement_Vectors = Create_Movement_Vectors(Dimension);
 
 %Start = Create_Random_Point(Dimension, Borders);
 %Target = Create_Random_Point(Dimension, Borders);
-%Start = [139,71.5,172]; Target = [6,90,81];
+%Start = [0.6659  106.0151  110.7207]; Target = [124.8314   29.3724   64.3759];
 
 Target_HyperPlanes = Create_Target_Hyperplanes(Target, Movement_Vectors);
 Border_HyperPlanes = Create_Border_Hyperplanes(Borders);

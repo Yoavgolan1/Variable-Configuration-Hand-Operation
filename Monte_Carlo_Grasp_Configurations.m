@@ -5,7 +5,7 @@ function [Sorted_List_Of_Grasps] = Monte_Carlo_Grasp_Configurations(Number_Of_Fi
 %   grasp is measued using the quality metric, assuming the given friction.
 %   All of the valid grasps (out of the "bets" tried) are sorted by their
 %   grasp quality.
-global Polygon
+global Polygon Rectangle_Flag
 Polygon = Polygon2;
 if nargin<6 || (Quality_Measure ~= "SPHERE_VOLUME")
     Quality_Measure = "ELLIPSE_VOLUME";
@@ -140,6 +140,19 @@ else
     %    'LineWidth',1.5)
 end
 
+if Rectangle_Flag %special rectangular grasp
+    %Rectangle_Flag = false;
+    Mid_Edges(1,:) = mean([Shape.Vertex(1,:); Shape.Vertex(2,:)]);
+    Mid_Edges(2,:) = mean([Shape.Vertex(2,:); Shape.Vertex(3,:)]);
+    Mid_Edges(3,:) = mean([Shape.Vertex(3,:); Shape.Vertex(4,:)]);
+    Mid_Edges(4,:) = mean([Shape.Vertex(4,:); Shape.Vertex(1,:)]);
+    
+    Rect_Grasp.Index = NaN;
+    Rect_Grasp.Configuration = Mid_Edges;
+    Rect_Grasp.Quality = NaN;
+    Sorted_List_Of_Grasps = [Rect_Grasp,Sorted_List_Of_Grasps];
+    Ind = Ind + 1;
+end
 disp(['Monte Carlo simulation complete. ',num2str(Ind),' valid grasps found and sorted'])
 end
 

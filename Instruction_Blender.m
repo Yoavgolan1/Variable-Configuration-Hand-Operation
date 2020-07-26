@@ -14,7 +14,12 @@ Goal_Angles = Rel2Abs_Angles(Goal_Angles');
 
 Dist_Change_IDS = Distance_Instructions(:,end);
 N_Distance_Changes = numel(Dist_Change_IDS);
-Fingers_To_Change = 1:N_Fingers-1;
+Fingers_To_Change = [];
+for ii=1:N_Fingers-1
+    if Goal_Angles(ii) ~= Current_Angles(ii)
+        Fingers_To_Change(end+1) = ii;
+    end
+end
 
 for ii=1:N_Distance_Changes
     if Dist_Change_IDS(ii) %If a finger needs to be pressed while changing distance
