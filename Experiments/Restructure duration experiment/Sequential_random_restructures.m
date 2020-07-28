@@ -91,3 +91,17 @@ for ii=1:N
     Real_Duration_vec(ii) = toc;
     Start = Target;
 end
+
+disp(['The mean duration for ', num2str(Dimension), ' fingers is ',num2str(mean(Real_Duration_vec)),' seconds.']);
+disp(['The standard deviation is ',num2str(std(Real_Duration_vec)),' seconds.']);
+disp(['The mean simulated duration for ', num2str(Dimension), ' fingers is ',num2str(mean(Evaluated_Duration_vec)),' seconds.']);
+disp(['The standard deviation is ',num2str(std(Evaluated_Duration_vec)),' seconds.']);
+err = abs(Real_Duration_vec-Evaluated_Duration_vec)./Real_Duration_vec;
+disp(['The mean simulation error is ', num2str(mean(err)*100),'%.']);
+disp(['The simulation error standard deviation is ', num2str(std(err)*100),'%.']);
+
+p = mfilename('fullpath');
+p(end-length(mfilename):end) = [];
+filename = [p,'/Real_Fingers_',num2str(Dimension),'.mat'];
+%uncomment this line to save the data
+save(filename,'Evaluated_Duration_vec','Real_Duration_vec')

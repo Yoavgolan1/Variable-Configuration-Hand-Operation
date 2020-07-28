@@ -1,7 +1,7 @@
 clear all
 %close all
 global f0_min f0_max f1_min f1_max f1_pressed_min Borders Dimension Last_Index
-global Movement_Vectors Border_HyperPlanes All_Locations Angle_Right_Now
+global Movement_Vectors Border_HyperPlanes All_Locations Angle_Right_Now angle_duration_slope
 f0_min = 0;
 f0_max = 143.7;
 f1_min = 20;
@@ -9,16 +9,18 @@ f1_max = 131;
 f1_pressed_min = 10;
 Angle_Right_Now = 0;
 
-Dimension = 2; %N_Fingers
+Dimension = 5; %N_Fingers
 Borders = Create_Borders();
 Movement_Vectors = Create_Movement_Vectors(Dimension);
 Border_HyperPlanes = Create_Border_Hyperplanes(Borders);
 
-%Create an inncer hypercube for start and target
+%Create an inner hypercube for start and target
 margin = 0.4 * (f1_max-f1_min); 
 Margin_Borders = Create_Borders(margin);
 
-N = 1000;
+load('Angle_experiment.mat'); angle_duration_slope = b1;
+
+N = 10000;
 Search_time_vec = zeros(N,1);
 Path_length_vec = zeros(N,1);
 Evaluated_Duration_vec = zeros(N,1);
@@ -86,6 +88,8 @@ end
 
 disp(['The mean duration for ', num2str(Dimension), ' fingers is ',num2str(mean(Evaluated_Duration_vec)),' seconds.']);
 disp(['The standard deviation is ',num2str(std(Evaluated_Duration_vec)),' seconds.']);
+SEV = sort(Evaluated_Duration_vec);
+disp(['95% of plans were realized in ',num2str(SEV(round(length(SEV)*0.95))),' seconds.']);
 disp(['The mean computation time is ',num2str(mean(Search_time_vec)),' seconds.']);
 disp(['The standard deviation is ',num2str(std(Search_time_vec)),' seconds.']);
 
@@ -93,4 +97,4 @@ p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/Fingers_',num2str(Dimension),'.mat'];
 %uncomment this line to save the data
-%save(filename,'Search_time_vec','Path_length_vec','Evaluated_Duration_vec')
+save(filename,'Search_time_vec','Path_length_vec','Evaluated_Duration_vec')
