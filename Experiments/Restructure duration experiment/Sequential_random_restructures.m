@@ -104,4 +104,4 @@ p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/Real_Fingers_',num2str(Dimension),'.mat'];
 %uncomment this line to save the data
-save(filename,'Evaluated_Duration_vec','Real_Duration_vec')
+%save(filename,'Evaluated_Duration_vec','Real_Duration_vec')
