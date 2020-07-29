@@ -42,7 +42,7 @@ Poly_Center = Poly_Center/normpolyfactor;
 Pickup_Zero_Point = [-350,-625]; Object_Center = Pickup_Zero_Point + [Centroid(1),-Centroid(2)];
 
 %% Search for grasps, hand formation instructions
-MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,5000,0.02,"SPHERE_VOLUME");
+MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,50000,0.02,"SPHERE_VOLUME");
 [Grasp_Center, Grasp_Finger_Placements] = Best_Grasp_That_Works(MyConfigs);
 plot(Grasp_Center(:,1),Grasp_Center(:,2),'.b');
 Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placements);
