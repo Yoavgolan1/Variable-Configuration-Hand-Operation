@@ -1,3 +1,10 @@
+% This script randomly generates hand structure configurations, synthesizes
+% plans to achieve them, and then evaluates the time it would take for a
+% physical robot system to perform the restructuring. To change the number
+% of fingers in the hand, alter "Dimension". To alter the number of
+% configurations to synthesize, change "N". To save the results, uncomment
+% the last line of this script "save(...". THIS WILL OVERRIDE THE ORIGINAL
+% DATA FROM OUR SIMULATIONS. 
 clear all
 %close all
 global f0_min f0_max f1_min f1_max f1_pressed_min Borders Dimension Last_Index
@@ -9,7 +16,7 @@ f1_max = 131;
 f1_pressed_min = 10;
 Angle_Right_Now = 0;
 
-Dimension = 5; %N_Fingers
+Dimension = 3; %N_Fingers
 Borders = Create_Borders();
 Movement_Vectors = Create_Movement_Vectors(Dimension);
 Border_HyperPlanes = Create_Border_Hyperplanes(Borders);
@@ -97,4 +104,4 @@ p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/Fingers_',num2str(Dimension),'.mat'];
 %uncomment this line to save the data
-save(filename,'Search_time_vec','Path_length_vec','Evaluated_Duration_vec')
+%save(filename,'Search_time_vec','Path_length_vec','Evaluated_Duration_vec')
