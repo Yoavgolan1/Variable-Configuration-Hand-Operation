@@ -10,4 +10,9 @@
 This code was built in Matlab 2018a, but will probably run on earlier versions. To use the Arduino functionality, the Arduino addon must be installed. To use the webcam functionality, the Webcam addon must be installed. Simulation mode does not require either of these addons. The statistics toolbox is used for the pdist function.
 
 ## RoboDK
-Simulations and robot operation are performed using the RoboDK simulator. The free version is enough to run everything, including the run-on-robot mode. RoboDK is available at http://robodk.com.The minimum version is v4.2.0, due to critical updates for the robotic arm used.
+Simulations and robot operation are performed using the RoboDK simulator. The free version is enough to run everything, including the run-on-robot mode. RoboDK is available at http://robodk.com. The minimum version is v4.2.0, due to critical updates for the robotic arm used.
+ ![The RoboDK simulation environment ](https://github.com/Yoavgolan1/Variable-Configuration-Hand-Operation/blob/master/RoboDK_screenshot.png)
+
+## Solidworks
+The CAD designs for the robotic hand were made in Solidworks 2019. They can be accessed in the "Solidworks CAD files" folder. The easiest way to quickly access the CAD design is to open the "Main Assembly.sldasm" file.
+ ![A screenshot of the main assembly ](https://github.com/Yoavgolan1/Variable-Configuration-Hand-Operation/blob/master/SolidWorks_Img.png)
