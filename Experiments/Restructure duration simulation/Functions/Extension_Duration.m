@@ -7,7 +7,7 @@ function [duration] = Extension_Duration(extension)
 ex1 = 0;
 dur1 = 0;
 ex2 = 100; %mm
-dur2 = 3; %seconds
+dur2 = 3.4; %seconds
 
 duration = abs(extension)*((dur2-dur1)/(ex2-ex1));
 end

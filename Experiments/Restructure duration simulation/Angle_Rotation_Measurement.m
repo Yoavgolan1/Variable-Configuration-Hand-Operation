@@ -1,3 +1,9 @@
+%This script is used to evaluate the time a hand rotation will take. The
+%script orders the physical robot system to rotate the hand at different
+%angles, measuring the time to complete each angle change. After all of the
+%data is collected, and linear regression is performed to find the slope
+%with a zero-intercept (it takes 0s to complete a 0 degree change). The 
+%slope is saved for use in time evaluation functions. 
 clear all
 close all
 global Hand_Configuration MODE Grasp_Finger_Placements Best_Config Hand_Center_Finger_Center_Dist Finger_Radius N_Fingers
@@ -11,7 +17,7 @@ Hand_Configuration.Angles = deg2rad([45; 45; 90; 180]); %Initial angles, relativ
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
 
-MODE = 'SIMULATION';
+%MODE = 'SIMULATION';
 MODE = 'REAL_ROBOT';
 
 %a = InitArduino('COM7'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
@@ -46,4 +52,4 @@ plot(x,y)
 p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/Angle_experiment.mat'];
-save(filename,'ACD','AAC','b1')
+%save(filename,'ACD','AAC','b1')

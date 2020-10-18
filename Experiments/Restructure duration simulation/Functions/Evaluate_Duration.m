@@ -1,9 +1,10 @@
 function Duration = Evaluate_Duration(Instr)
 %EVALUATE_DURATION Teakes a list of instructions, and evaluated the time it
 %will take to eecute them on a real robot.
+global angle_duration_slope
 Duration = 0;
 
-Time_To_Press_Button = 1; %Seconds
+Time_To_Press_Button = 1.2; %Seconds
 N_Steps = length(Instr);
 
 for ii=1:N_Steps
@@ -16,7 +17,7 @@ for ii=1:N_Steps
             Duration = Duration + Extension_Duration(amount);
         case 'ROTATE_HAND'
             Angle_Change = Instr{ii}.Value;
-            Duration = Duration + Rotation_Duration(Angle_Change);
+            Duration = Duration + Rotation_Duration(Angle_Change, angle_duration_slope);
         otherwise
          
     end
