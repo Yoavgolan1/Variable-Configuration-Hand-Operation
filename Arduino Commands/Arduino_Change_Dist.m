@@ -5,8 +5,9 @@ global Hand_Configuration
 Stepper_Motor_On_Off(a,'ON')
 MOTOR_ACTIVATION_PIN = 'D11';
 DIR_PIN = 'D12';
-ENC_A_PIN = 'D2';
-ENC_B_PIN = 'D3';
+ENC_A_PIN = 'D18';
+ENC_B_PIN = 'D19';
+STEPPER_FREQUENCY = 3000; %Hz
 ppr = 1000*4; %Ticks per revolution for encoder
 mm_per_rev = 8;
 rev_per_mm = 1/mm_per_rev;
@@ -28,7 +29,9 @@ Init_count = count;
 
 Required_distance = abs(delta*ticks_per_mm)
 tic
-writePWMVoltage(a,MOTOR_ACTIVATION_PIN,2.5);
+%writePWMVoltage(a,MOTOR_ACTIVATION_PIN,2.5);
+playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
+
 while abs(Init_count-count)<Required_distance
     [count,~] = readCount(encoder);
     %abs(readSpeed(encoder))
@@ -47,7 +50,8 @@ while abs(Init_count-count)<Required_distance
     end
     % %     abs(Init_count-count)
 end
-writePWMVoltage(a,MOTOR_ACTIVATION_PIN,0); %Stop motor
+%writePWMVoltage(a,MOTOR_ACTIVATION_PIN,0); %Stop motor
+playTone(a,MOTOR_ACTIVATION_PIN,0,0);
 [count,~] = readCount(encoder);
 delta_travelled = count*mm_per_tick;
 

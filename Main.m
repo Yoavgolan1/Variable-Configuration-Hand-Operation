@@ -20,7 +20,7 @@ MODE = 'SIMULATION';
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
-a = InitArduino('COM7'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
+a = InitArduino('COM4'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
 InitRoboDK();
 
 %% Image reading and processing

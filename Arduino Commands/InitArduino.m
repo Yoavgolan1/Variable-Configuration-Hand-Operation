@@ -13,7 +13,8 @@ if isinteger(COM_Port)
     COM_Port = ['COM',int2str(COM_Port)];
 end
 disp('Initializing Arduino...');
-a = arduino(COM_Port,'Nano','Libraries','rotaryEncoder');
+%a = arduino(COM_Port,'Nano','Libraries','rotaryEncoder');
+a = arduino(COM_Port,'Mega2560','Libraries','rotaryEncoder');
 Stepper_Motor_On_Off(a,'OFF')
 configurePin(a,'D4','DigitalInput')
 disp('Arduino initialized.');
