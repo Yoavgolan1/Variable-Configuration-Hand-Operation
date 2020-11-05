@@ -40,8 +40,8 @@ int dataNumber = 0;             // new for this version
 double errSum = 0;
 unsigned long lastTime;
 double lastErr;
-double Kp = 0.16;
-double Ki = 0.0005;
+double Kp = 0.7;
+double Ki = 0.0010;
 
 void setup() {
 
@@ -77,21 +77,20 @@ void loop() {
     //incomingByte1 = Serial.read(); //read incoming data
     //Serial.println(incomingByte1, HEX); //print data
     //Serial.print("OK"); //print OK message
-    if (dataNumber == 10000){
+    if (dataNumber == 10000) {
       Serial.println(currentSpeed);
     }
     else
       goalSpeed = dataNumber;
-    errSum = 0;
+    //errSum = 0;
     //Serial.print(goalSpeed);
 
   }
 
   //goalSpeed = 20;
   double baseMotorPower = abs(goalSpeed) * 1 + 9; //y= a*x + b
-  if (goalSpeed == 0)
-    baseMotorPower = 0;
-    
+  baseMotorPower = 0;
+
 
   pid.setpoint(goalSpeed);
 
@@ -106,44 +105,50 @@ void loop() {
 
     //currentSpeed = rps * 2 * PI * R * TRANSMISSION_RATIO;
     currentSpeed = rps * TRANSMISSION_RATIO;
-    
-//    output = pid.compute(currentSpeed);    // Let the PID compute the value, returns the optimal output
+
+    //    output = pid.compute(currentSpeed);    // Let the PID compute the value, returns the optimal output
     //Serial.println(baseMotorPower);
-//    output = round(constrain(output + baseMotorPower, -255, 255));
+    //    output = round(constrain(output + baseMotorPower, -255, 255));
 
 
 
 
 
-  //////////////////////////////////////////////////////////////////////////////////////////
- unsigned long now = millis();
-  double timeChange = (double)(now - lastTime);
-  
-  double error = goalSpeed - currentSpeed;
-  errSum += error * timeChange;
-  double dErr = (error - lastErr) / timeChange;
-  
-  lastErr = error;
-  lastTime = now;
+    //////////////////////////////////////////////////////////////////////////////////////////
+    unsigned long now = millis();
+    double timeChange = (double)(now - lastTime);
 
-  double newOutput = (Kp * error + Ki * errSum);
-  output = round(constrain(newOutput + baseMotorPower, -255, 255));
-  //Serial.println(output);
+    double error = abs(goalSpeed) - currentSpeed;
+    errSum += error * timeChange;
+    double dErr = (error - lastErr) / timeChange;
 
-//////////////////////////////////////////////////////////////////////////////////////////
+    lastErr = error;
+    lastTime = now;
+
+    double newOutput = (Kp * error + Ki * errSum);
+    output = round(constrain(newOutput + baseMotorPower, -255, 255));
+    //Serial.println(output);
+
+    //////////////////////////////////////////////////////////////////////////////////////////
     if (output < 0)
       reverse = true;
     else
       reverse = false;
-      
-//    if (goalSpeed == 0)
-//      output = 0;
 
+    if (goalSpeed == 0) {
+      baseMotorPower = 0;
+      errSum = 0;
+      output = 0;
+    }
+
+    //    if (goalSpeed == 0)
+    //      output = 0;
+/*
     Serial.print("Current Speed: ");
-    Serial.print(currentSpeed);
-    Serial.print(". Output: ");
-    Serial.println(output);
-
+      Serial.print(currentSpeed);
+      Serial.print(". Output: ");
+      Serial.println(output);
+ */   
     delay(30);
     if (reverse) {
       MotorCounterClockwise(abs(output));

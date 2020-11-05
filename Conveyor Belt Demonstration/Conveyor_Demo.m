@@ -4,7 +4,7 @@ close all
 
 global Hand_Configuration MODE Grasp_Finger_Placements Best_Config ...
     Hand_Center_Finger_Center_Dist Finger_Radius N_Fingers...
-    CONVEYOR_SPEED;
+    CONVEYOR_SPEED cam;
 
 % The initial hand configuration
 N_Fingers = 4;
@@ -26,14 +26,18 @@ b = InitArduino_Conveyor('COM4');
 InitRoboDK_Conveyer();
 
 %% Start motion
-CONVEYOR_SPEED = 20; %mm/sec
+CONVEYOR_SPEED = 50; %mm/sec
 setConveyorBeltSpeed(b,CONVEYOR_SPEED);
 robot.MoveJ(Above_Conveyor_Belt);
 
-[~,~] = waitForConveyorObject(b);
+cam = webcam(2);
+
+[~,~] = waitForConveyorObject(0.95);
 setConveyorBeltSpeed(b,0);
-pause(0.5);
-[object, object_type] = waitForConveyorObject(b);
+pause(0.2);
+[object, object_type] = waitForConveyorObject();
+
+
 
 
 

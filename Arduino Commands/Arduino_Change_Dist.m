@@ -6,8 +6,13 @@ Stepper_Motor_On_Off(a,'ON')
 MOTOR_ACTIVATION_PIN = 'D11';
 DIR_PIN = 'D12';
 ENC_A_PIN = 'D18';
+<<<<<<< Updated upstream
 ENC_B_PIN = 'D19';
 STEPPER_FREQUENCY = 3000; %Hz
+=======
+%ENC_B_PIN = 'D3';
+ENC_B_PIN = 'D19';
+>>>>>>> Stashed changes
 ppr = 1000*4; %Ticks per revolution for encoder
 mm_per_rev = 8;
 rev_per_mm = 1/mm_per_rev;
@@ -30,7 +35,11 @@ Init_count = count;
 Required_distance = abs(delta*ticks_per_mm)
 tic
 %writePWMVoltage(a,MOTOR_ACTIVATION_PIN,2.5);
+<<<<<<< Updated upstream
 playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
+=======
+playTone(a,MOTOR_ACTIVATION_PIN,3000,30)
+>>>>>>> Stashed changes
 
 while abs(Init_count-count)<Required_distance
     [count,~] = readCount(encoder);
@@ -51,7 +60,11 @@ while abs(Init_count-count)<Required_distance
     % %     abs(Init_count-count)
 end
 %writePWMVoltage(a,MOTOR_ACTIVATION_PIN,0); %Stop motor
+<<<<<<< Updated upstream
 playTone(a,MOTOR_ACTIVATION_PIN,0,0);
+=======
+playTone(a,MOTOR_ACTIVATION_PIN,0,0)
+>>>>>>> Stashed changes
 [count,~] = readCount(encoder);
 delta_travelled = count*mm_per_tick;
 

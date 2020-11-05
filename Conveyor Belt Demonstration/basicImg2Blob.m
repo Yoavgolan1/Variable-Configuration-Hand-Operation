@@ -1,24 +1,24 @@
-function blobs = basicImg2Blob(snap)
+function blobs = basicImg2Blob(imggray)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-img = autocontrast(snap); % Automatic contrast to optimum level (A = input, B = output)
+%img = autocontrast(snap); % Automatic contrast to optimum level (A = input, B = output)
 %img = flipud(img);
-imghsv = rgb2hsv(img);
-imggray = rgb2gray(img);
-imgS = imghsv(:,:,2);
-%level = graythresh(imgS);
+%imghsv = rgb2hsv(img);
+%imggray = rgb2gray(img);
+%imgS = imghsv(:,:,2);
+level = graythresh(imggray);
 %imgBW = imbinarize(imgS,level);
 
-imgBW = imbinarize(imggray);
+imgBW = imbinarize(imggray,max(0.2,level));
 % Remove empty spaces within the object
 obj = 0.02; % = 1%
 imgBW2 = bwareaopen(imgBW, round(obj*numel(imgBW)));
 imgBW2 = imfill(imgBW2, 'holes');
 
-labeledImage = bwlabel(imgBW2, 8);
-coloredLabels = label2rgb (labeledImage, 'hsv', 'k', 'shuffle'); % pseudo random color labels
-blobMeasurements = regionprops(labeledImage, imgBW, 'all');
-numberOfBlobs = size(blobMeasurements, 1);
+%labeledImage = bwlabel(imgBW2, 8);
+%coloredLabels = label2rgb (labeledImage, 'hsv', 'k', 'shuffle'); % pseudo random color labels
+blobMeasurements = regionprops(imgBW2, imgBW, 'all');
+%numberOfBlobs = size(blobMeasurements, 1);
 
 blobs = blobMeasurements;
 % Clean noise with disk using a "close" operation
