@@ -4,7 +4,9 @@ close all
 
 global Hand_Configuration MODE Grasp_Finger_Placements Best_Config ...
     Hand_Center_Finger_Center_Dist Finger_Radius N_Fingers...
-    CONVEYOR_SPEED cam;
+    CONVEYOR_SPEED cam one_mm_is_X_pixels;
+
+one_mm_is_X_pixels = (640-18)/420;
 
 % The initial hand configuration
 N_Fingers = 4;

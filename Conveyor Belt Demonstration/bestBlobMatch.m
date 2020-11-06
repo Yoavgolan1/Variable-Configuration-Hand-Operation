@@ -8,7 +8,7 @@ confidence_matrix = zeros(N_blobs,N_library);
 
 for ii=1:N_blobs
     for jj=1:N_library
-        confidence_matrix(ii,jj) = compareBlobs(blobs(ii),library_of_objects(jj));
+        [confidence_matrix(ii,jj),blobs(ii)] = compareBlobs(blobs(ii),library_of_objects(jj));
     end
 end
 %[M,I] = max(confidence_matrix);

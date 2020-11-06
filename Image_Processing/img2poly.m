@@ -108,7 +108,7 @@ if N_Fingers==4
     if isequal(answer,'Yes')
         Rectangle_Flag = true;
         rect_disp = figure;
-        imshow(imgBW2);
+        imshow(imgBW3);
         hold on;
         plot(xyBlob(:,2),xyBlob(:,1))
         

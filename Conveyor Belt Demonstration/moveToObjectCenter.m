@@ -10,5 +10,5 @@ newPose(1,4) = new_x;
 newPose(2,4) = new_y;
 robot.MoveJ(newPose);
 
-end
+end 
 

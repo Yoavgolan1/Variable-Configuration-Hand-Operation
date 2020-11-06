@@ -14,7 +14,7 @@ while ~object_detected
     snap = takeSnapshot(cam); %Requires MATLAB Webcam Addon
     snap = undistortImage(snap, handCameraParams);
     gray_snap = rgb2gray(snap) - meanBackground;
-    blobs = basicImg2Blob(gray_snap);
+    [blobs,~] = basicImg2Blob(gray_snap);
     [object, object_type, confidence] = bestBlobMatch(blobs,library_of_objects);
     confidence
     if confidence>confidence_threshold

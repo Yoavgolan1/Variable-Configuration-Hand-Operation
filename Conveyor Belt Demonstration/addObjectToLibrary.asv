@@ -1,7 +1,7 @@
 function [] = addObjectToLibrary(object_name,library_of_objects)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-global cam one_mm_is_X_pixels N_Fingers
+global cam one_mm_is_X_pixels
 if nargin<2
     load('object_library.mat','library_of_objects');
 end
@@ -41,13 +41,13 @@ R = R(1:2,1:2); %Only use the Z reorientation part of the matrix for 2D
 Untilted_Grasp_Center = Grasp_Center*R;
 Untilted_Finger_Placements = Grasp_Finger_Placements*R;
 
-%gray_snap_rotated = imrotate(gray_snap,-blob.Orientation);
-%imshow(gray_snap_rotated);
+gray_snap_rotated = imrotate(gray_snap,-blob.Orientation);
+imshow(gray_snap_rotated);
+
 
 blob.Name = object_name;
 blob.Untilted_Grasp_Center = Untilted_Grasp_Center;
 blob.Untilted_Finger_Placements = Untilted_Finger_Placements;
-blob.N_Fingers_For_Analysis = N_Fingers;
 
 if isempty(library_of_objects)
     library_of_objects = blob;
