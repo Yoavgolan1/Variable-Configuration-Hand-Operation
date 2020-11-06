@@ -10,14 +10,39 @@ errEquivDiameter = (blob.EquivDiameter - lib_obj.EquivDiameter)/lib_obj.EquivDia
 errPerimeter = (blob.Perimeter - lib_obj.Perimeter)/lib_obj.Perimeter;
 errCircularity = (blob.Circularity - lib_obj.Circularity)/lib_obj.Circularity;
 
-intersection = blob.StraightImage~=lib_obj.StraightImage;
-intersection_flipped = imrotate(blob.StraightImage,180)~=lib_obj.StraightImage;
+BSI = blob.StraightImage;
+LISI = lib_obj.StraightImage;
+if ~isequal(size(BSI),size(LISI))
+    %rows
+    if length(BSI(:,1)) > length(LISI(:,1))
+        amount = length(BSI(:,1)) - length(LISI(:,1));
+        remainder = mod(amount,2);
+        BSI = BSI(1+floor(amount/2):end-floor(amount/2)-remainder,:);
+    elseif length(BSI(:,1)) < length(LISI(:,1))
+        amount = length(LISI(:,1)) - length(BSI(:,1));
+        remainder = mod(amount,2);
+        LISI = LISI(1+floor(amount/2):end-floor(amount/2)-remainder,:);
+    end
+    %columns
+    if length(BSI(1,:)) > length(LISI(1,:))
+        amount = length(BSI(1,:)) - length(LISI(1,:));
+        remainder = mod(amount,2);
+        BSI = BSI(:,1+floor(amount/2):end-floor(amount/2)-remainder);
+    elseif length(BSI(1,:)) < length(LISI(1,:))
+        amount = length(LISI(1,:)) - length(BSI(1,:));
+        remainder = mod(amount,2);
+        LISI = LISI(:,1+floor(amount/2):end-floor(amount/2)-remainder);
+    end
+end
+
+intersection = BSI~=LISI;
+intersection_flipped = imrotate(BSI,180)~=LISI;
 
 image_compare_err = sum(sum(intersection))/numel(intersection);
 flipped_image_compare_err = sum(sum(intersection_flipped))/numel(intersection_flipped);
 
 if image_compare_err > flipped_image_compare_err %The rotated image works better
-    if blob.Orientation<0 
+    if blob.Orientation<0
         blob.Orientation = blob.Orientation + 180;
     else
         blob.Orientation = blob.Orientation - 180;
@@ -26,7 +51,7 @@ if image_compare_err > flipped_image_compare_err %The rotated image works better
 end
 
 errs = [errArea, errMajorAxisLength, errMinorAxisLength, errEccentricity,...
-    errEquivDiameter, errPerimeter, errCircularity];
+    errEquivDiameter, errPerimeter, errCircularity, image_compare_err];
 N_errs = numel(errs);
 
 SSE = sqrt(sum(errs.^2));

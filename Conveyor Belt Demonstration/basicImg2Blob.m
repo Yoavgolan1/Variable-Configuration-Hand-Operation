@@ -28,7 +28,6 @@ blobMeasurements.Circularity = (4*blobMeasurements.Area*pi)/(blobMeasurements.Pe
 rotated_img = imrotate(imgBW2,-blobMeasurements.Orientation);
 straightened_image = regionprops(rotated_img,'Image');
 blobMeasurements.StraightImage = straightened_image.Image;
-
 blobs = blobMeasurements;
 % Clean noise with disk using a "close" operation
 % Disk_Rad = floor(0.01*length(imgBW));
