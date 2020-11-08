@@ -43,7 +43,7 @@ station = RDK.Item('Yoavs_Hand');
 
 if isequal(MODE,'REAL_ROBOT')
     % Try to connect to the robot (make sure to first provide the IP in the RoboDK User Interface)
-    success = robot.Connect('COM2');
+    success = robot.Connect(Robot_COM);
     % Check if you are properly connected to the robot
     [status, status_msg] = robot.ConnectedState();
     if status ~= Robolink.ROBOTCOM_READY

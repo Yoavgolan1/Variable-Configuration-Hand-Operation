@@ -21,6 +21,7 @@ MODE = 'SIMULATION';
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
 a = InitArduino('COM4'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
+Robot_COM = 'COM2';
 InitRoboDK();
 
 %% Image reading and processing

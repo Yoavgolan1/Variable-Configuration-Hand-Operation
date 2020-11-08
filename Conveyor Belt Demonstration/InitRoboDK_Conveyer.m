@@ -2,15 +2,17 @@ global digits RDK robot tool station safe_height Hand_Configuration
 safe_height = 105;
 
 %Set some constants
-global Normal_Speed Slow_Speed Camera_Position pre_press_position_transl press_position_transl Neutral_Position
+global Normal_Speed Slow_Speed Camera_Position pre_press_position_transl...
+    press_position_transl Neutral_Position Above_Conveyor_Belt Robot_Speed
 pre_press_position_transl = transl(380,380,365);
 press_position_transl = transl(362,362,365);
-Normal_Speed = [100, 10, -1 ,-1];
-Slow_Speed = [20, 10, -1, -1];
-Neutral_Position = transl(0,-790,845)*roty(0)*rotz(90*pi/180);
-%Camera_Position = transl(-50,-1169.388,640.911)*rotx(-90*pi/180)*roty(0*pi/180)*rotz(90*pi/180);
-Camera_Position = transl(-70.651,-1214.031,618.260)*rotx(-98.676*pi/180)*roty(3.293*pi/180)*rotz(90.502*pi/180);
+Normal_Speed = [100, 10, 100 ,10];
+Slow_Speed = [20, 10, 10, 10];
+Robot_Speed = Slow_Speed; %Used to keep track of the current robot speed
 
+Neutral_Position = transl(0,-790,845)*roty(0)*rotz(90*pi/180);
+Camera_Position = transl(-70.651,-1214.031,618.260)...
+    *rotx(-98.676*pi/180)*roty(3.293*pi/180)*rotz(90.502*pi/180);
 
 N_Fingers = length(Hand_Configuration.Distances);
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles');
@@ -31,18 +33,22 @@ RDK = Robolink;
 path = [pwd,'\RoboDK Files\'];
 RDK.AddFile([path, 'Yoavs_Hand_Conveyor_UP6.rdk']);
 
-%fprintf('Available items in the station:\n');
-%disp(RDK.ItemList());
-
 robot = RoboDK_getRobot();
 tool = RDK.Item('Hand');
 station = RDK.Item('Yoavs_Hand');
+Conveyor_Belt_Frame = RDK.Item('Conveyor Belt Base');
+Conveyor_Belt_Height = Conveyor_Belt_Frame.Pose();
+Conveyor_Belt_Height = Conveyor_Belt_Height(3,4);
 
-%Import_Items; %Uncomment to import Sugar Box, Cracker Box, and Power Drill
+Belt_Cam_Dist = 314; %Height of the hand above the conveyor belt for imaging
+
+Above_Conveyor_Belt = transl(-136,-1033,Conveyor_Belt_Height + Belt_Cam_Dist)...
+    *roty(0)*rotz(-90*pi/180);
 
 if isequal(MODE,'REAL_ROBOT')
-    % Try to connect to the robot (make sure to first provide the IP in the RoboDK User Interface)
-    success = robot.Connect('COM2');
+    % Try to connect to the robot (make sure to first provide the IP in the
+    % RoboDK User Interface)
+    success = robot.Connect(Robot_COM);
     % Check if you are properly connected to the robot
     [status, status_msg] = robot.ConnectedState();
     if status ~= Robolink.ROBOTCOM_READY
@@ -52,7 +58,8 @@ if isequal(MODE,'REAL_ROBOT')
        MODE = 'SIMULATION';
     else
         RDK.setRunMode(RDK.RUNMODE_RUN_ROBOT)
-        robot.setSpeed(Normal_Speed);
+        Robot_Speed = Normal_Speed;
+        robot.setSpeed(Robot_Speed);
         %program = RDK.Item('Prog1');
         %program.setRunType(RDK.PROGRAM_RUN_ON_ROBOT)
     end

@@ -15,6 +15,8 @@ obj = 0.02; % = 1%
 imgBW2 = bwareaopen(imgBW, round(obj*numel(imgBW)));
 imgBW2 = imfill(imgBW2, 'holes');
 
+imgBW2 = imclearborder(imgBW2);
+
 BW_Image = imgBW2;
 %labeledImage = bwlabel(imgBW2, 8);
 %coloredLabels = label2rgb (labeledImage, 'hsv', 'k', 'shuffle'); % pseudo random color labels

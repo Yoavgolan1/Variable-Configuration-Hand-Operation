@@ -103,10 +103,12 @@ figure(1);
 grid on
 axis equal
 hold on
+fing_color = [0 1 0];
 for jj=1:N_Fingers
     Inner_Circ(jj) = viscircles(Finger_Places(jj,:),r_min,'LineWidth',1,'LineStyle','-','Color','r');
     Outer_Circ(jj) = viscircles(Finger_Places(jj,:),r_max,'LineWidth',1,'LineStyle','-','Color','m');
-    Circ_Cent(jj) =  plot(Finger_Places(jj,1),Finger_Places(jj,2),'ok','MarkerFaceColor',[1 0 0]);
+    Circ_Cent(jj) =  plot(Finger_Places(jj,1),Finger_Places(jj,2),'ok','MarkerFaceColor',fing_color);
+    fing_color = [1 0 0];
 end
 
 Grasp = Good_Point;

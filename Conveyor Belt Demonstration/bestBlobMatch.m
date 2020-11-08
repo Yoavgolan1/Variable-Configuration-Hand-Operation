@@ -12,7 +12,7 @@ for ii=1:N_blobs
     end
 end
 %[M,I] = max(confidence_matrix);
-confidence_matrix
+%confidence_matrix
 maximum = max(max(confidence_matrix));
 [x,y]=find(confidence_matrix==maximum,1,'first');
 confidence = maximum;

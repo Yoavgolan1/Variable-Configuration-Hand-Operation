@@ -5,6 +5,9 @@ global cam one_mm_is_X_pixels N_Fingers
 if nargin<2
     load('object_library.mat','library_of_objects');
 end
+if nargin<1
+    object_name = ['Unknown_Object_',num2str(randi(1000))];
+end
 cam_on_flag = false;
 if isempty('cam')
     cam = webcam(2);
@@ -34,6 +37,9 @@ P1.Vertex = Polygon;
 MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,50000,0.02,"SPHERE_VOLUME");
 [Grasp_Center, Grasp_Finger_Placements] = Best_Grasp_That_Works(MyConfigs);
 
+Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placements);
+
+
 %Untilting the initial orientation
 R = rotz(deg2rad(-blob.Orientation));
 R = R(1:2,1:2); %Only use the Z reorientation part of the matrix for 2D
@@ -48,6 +54,7 @@ blob.Name = object_name;
 blob.Untilted_Grasp_Center = Untilted_Grasp_Center;
 blob.Untilted_Finger_Placements = Untilted_Finger_Placements;
 blob.N_Fingers_For_Analysis = N_Fingers;
+blob.Possible_Hand_Configs = Possible_Hand_Configs;
 
 if isempty(library_of_objects)
     library_of_objects = blob;

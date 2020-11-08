@@ -25,6 +25,7 @@ while ~object_detected
         imshow(gray_snap);
         disp([object_type.Name, ' detected.']);
     end
+    if object.Centroid(1) %if the object is in the center and the confidence is low, it must be a new object
 end
 
 end
