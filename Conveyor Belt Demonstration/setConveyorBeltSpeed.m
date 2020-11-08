@@ -23,5 +23,6 @@ if ~success
     warning('Conveyor belt speed not set');
 end
 
+flush(b,"input")
 end
 

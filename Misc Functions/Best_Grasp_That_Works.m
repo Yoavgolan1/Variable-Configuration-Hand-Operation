@@ -4,7 +4,7 @@ function [Hand_Center, Finger_Placements] = Best_Grasp_That_Works(Sorted_List_Of
 %   Given a sorted list of possible grasp configurations (best to worst),
 %   the function tries to find the first grasp configuration that is viable
 %   considering the hand geometry.
-global Polygon Hand_Center_Finger_Center_Dist 
+global Polygon Hand_Center_Finger_Center_Dist Aux_Fig
 if nargin<3
     r_min = Hand_Center_Finger_Center_Dist;
     r_max = r_min+144.44;
@@ -99,7 +99,7 @@ for ii=1:N_Configs
     end
 end
 
-figure(1);
+f = figure(1);
 grid on
 axis equal
 hold on
@@ -110,6 +110,8 @@ for jj=1:N_Fingers
     Circ_Cent(jj) =  plot(Finger_Places(jj,1),Finger_Places(jj,2),'ok','MarkerFaceColor',fing_color);
     fing_color = [1 0 0];
 end
+savefig('Aux_Fig.fig')
+Aux_Fig.Finger_Placements = Circ_Cent;
 
 Grasp = Good_Point;
 Finger_Placements = Finger_Places;

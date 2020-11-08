@@ -1,11 +1,11 @@
-#include <PIDController.h>
+//#include <PIDController.h>
 
 #define ENCODERPPR 1024
 //#define PI 3.1415926535
 #define TRANSMISSION_RATIO 60
 #define R 24
 
-PIDController pid;
+//PIDController pid;
 
 const int ENC_A = 2;
 const int ENC_B = 3;
@@ -53,10 +53,10 @@ void setup() {
   EncoderInit();//Initialize the module
   pinMode( MOTOR1A , OUTPUT);
   pinMode( MOTOR1DIR , OUTPUT);
-  pid.begin();          // initialize the PID instance
-  pid.setpoint(0);    // The "goal" the PID controller tries to "reach"
-  pid.tune(0.08, 0.00001, 0);    // Tune the PID, arguments: kP, kI, kD
-  pid.limit(-255, 255);    // Limit the PID output between 0 and 255, this is important to get rid of integral windup!
+//  pid.begin();          // initialize the PID instance
+//  pid.setpoint(0);    // The "goal" the PID controller tries to "reach"
+//  pid.tune(0.08, 0.00001, 0);    // Tune the PID, arguments: kP, kI, kD
+//  pid.limit(-255, 255);    // Limit the PID output between 0 and 255, this is important to get rid of integral windup!
 
   setPwmFrequency(MOTOR1A, 1);
 }
@@ -92,7 +92,7 @@ void loop() {
   baseMotorPower = 0;
 
 
-  pid.setpoint(goalSpeed);
+//  pid.setpoint(goalSpeed);
 
   currentMillis = millis();
   if (currentMillis - previousMillis > interval) {
@@ -104,7 +104,7 @@ void loop() {
     encoderValue = 0;
 
     //currentSpeed = rps * 2 * PI * R * TRANSMISSION_RATIO;
-    currentSpeed = rps * TRANSMISSION_RATIO;
+    currentSpeed = abs(rps * TRANSMISSION_RATIO);
 
     //    output = pid.compute(currentSpeed);    // Let the PID compute the value, returns the optimal output
     //Serial.println(baseMotorPower);
@@ -130,10 +130,10 @@ void loop() {
     //Serial.println(output);
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    if (output < 0)
-      reverse = true;
-    else
-      reverse = false;
+    //if (output < 0)
+    //  reverse = true;
+    //else
+    //  reverse = false;
 
     if (goalSpeed == 0) {
       baseMotorPower = 0;
@@ -143,12 +143,12 @@ void loop() {
 
     //    if (goalSpeed == 0)
     //      output = 0;
-/*
-    Serial.print("Current Speed: ");
-      Serial.print(currentSpeed);
-      Serial.print(". Output: ");
-      Serial.println(output);
- */   
+    /*
+        Serial.print("Current Speed: ");
+          Serial.print(currentSpeed);
+          Serial.print(". Output: ");
+          Serial.println(output);
+    */
     delay(30);
     if (reverse) {
       MotorCounterClockwise(abs(output));
@@ -257,6 +257,10 @@ void showNewNumber() {
     //Serial.println(receivedChars);
     //Serial.print("Data as Number ... ");    // new for this version
     Serial.println(dataNumber);     // new for this version
-    newData = false;
+    if (dataNumber < 0)
+      reverse = true;
+    else
+      reverse = false;
+                newData = false;
   }
 }

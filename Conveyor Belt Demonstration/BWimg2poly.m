@@ -17,6 +17,8 @@ if nargin < 2
 end
 Rectangle_Flag = false;
 
+snap = flipud(snap);
+
 %Transfer to configuration space by eroding the image (dilating the object)
 SE = strel('disk', floor(one_mm_is_X_pixels*Finger_Radius));
 imgBW3 = imdilate(snap,SE);

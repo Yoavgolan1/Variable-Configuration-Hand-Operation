@@ -1,8 +1,8 @@
-function [GC_x, GC_y, GC_theta] = getHandCenterInWorldFrame(object)
+function [GC_x, GC_y, GC_theta] = getHandCenterInWorldFrame(object,object_type)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-global Grasp_Finger_Placements Best_Config
-Base_Finger_XY_Rel = Grasp_Finger_Placements(1,:);
+global Best_Config
+Base_Finger_XY_Rel = object_type.Untilted_Finger_Placements(1,:);
 Base_Finger_Angle_Object_Frame = atan2(Base_Finger_XY_Rel(2),Base_Finger_XY_Rel(1));
 Base_Finger_Angle_World_Frame = deg2rad(object.Orientation) + Base_Finger_Angle_Object_Frame;
 

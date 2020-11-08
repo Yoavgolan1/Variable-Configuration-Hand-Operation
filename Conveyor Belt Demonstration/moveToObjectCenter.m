@@ -4,10 +4,7 @@ function [] = moveToObjectCenter(object)
 global robot 
 
 [new_x,new_y] = pixelXY2GlobalXY(object.Centroid);
-currentPose = robot.Pose();
-newPose = currentPose;
-newPose(1,4) = new_x;
-newPose(2,4) = new_y;
+newPose = transl(new_x,new_y,Conveyor_Belt_Height+safe_height)*rotz(-90*pi/180);
 robot.MoveJ(newPose);
 
 end 

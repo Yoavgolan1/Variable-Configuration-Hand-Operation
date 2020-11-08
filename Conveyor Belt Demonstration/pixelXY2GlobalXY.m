@@ -14,7 +14,7 @@ RES_Y = str2double(RES_STR(x_loc+1:end));
 RES = [RES_Y,RES_X];
 
 %base_frame = RDK.Item('Motoman UP6 Base');
-cam_frame = RDK.Item('Camera');
+cam_frame = RDK.Item('Static Camera');
 pose = cam_frame.PoseAbs();
 cam_x = pose(1,4);
 cam_y = pose(2,4);

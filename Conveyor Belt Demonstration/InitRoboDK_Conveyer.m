@@ -40,9 +40,9 @@ Conveyor_Belt_Frame = RDK.Item('Conveyor Belt Base');
 Conveyor_Belt_Height = Conveyor_Belt_Frame.Pose();
 Conveyor_Belt_Height = Conveyor_Belt_Height(3,4);
 
-Belt_Cam_Dist = 314; %Height of the hand above the conveyor belt for imaging
+Belt_Cam_Dist = 470.45; %Height of the hand above the conveyor belt for imaging
 
-Above_Conveyor_Belt = transl(-136,-1033,Conveyor_Belt_Height + Belt_Cam_Dist)...
+Above_Conveyor_Belt = transl(-194.436,-967.691,Conveyor_Belt_Height + Belt_Cam_Dist)...
     *roty(0)*rotz(-90*pi/180);
 
 if isequal(MODE,'REAL_ROBOT')

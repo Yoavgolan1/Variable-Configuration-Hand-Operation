@@ -19,25 +19,25 @@ Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Ini
 
 %Run mode - simulation only, or run on robot
 MODE = 'SIMULATION';
-%MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
+MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
-a = InitArduino('COM7'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
-b = InitArduino_Conveyor('COM4');
+a = InitArduino('COM4'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
+b = InitArduino_Conveyor('COM9');
 Robot_COM = 'COM2';
 InitRoboDK_Conveyer();
 
 %% Start motion
 CONVEYOR_SPEED = 20; %mm/sec
 setConveyorBeltSpeed(b,CONVEYOR_SPEED);
-robot.MoveJ(Above_Conveyor_Belt,1);
-cam = webcam(2);
+robot.MoveJ(Above_Conveyor_Belt);
+cam = webcam();
 
 %% Task 1 - Palletize distinct items
 Current_Object_Type = [];
 new_type_of_object = false;
-Total_Number_Of_Objects = 5;
+Total_Number_Of_Objects = 1;
 for ii=1:Total_Number_Of_Objects
     [~,~] = waitForConveyorObject(0.95);
     setConveyorBeltSpeed(b,0);
@@ -53,8 +53,8 @@ for ii=1:Total_Number_Of_Objects
     end
     
     [GC_x, GC_y, GC_theta] = getHandCenterInWorldFrame(object,object_type);
-    Above_Object_Position = transl(GC_x,GC_y,Conveyor_height+safe_height)*roty(0)*rotz(GC_theta);
-    robot.MoveL(robot.Pose*rotz(Base_Finger_Angle_World))
+    Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+100)*roty(0)*rotz(GC_theta);
+    robot.MoveL(Above_Object_Position)
     Amount_Opened = Open_or_Close_Hand(a,'OPEN');
     robot.setSpeed(Slow_Speed);
     

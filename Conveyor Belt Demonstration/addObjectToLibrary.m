@@ -1,7 +1,7 @@
 function [] = addObjectToLibrary(object_name,library_of_objects)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-global cam one_mm_is_X_pixels N_Fingers
+global cam one_mm_is_X_pixels N_Fingers Aux_Fig
 if nargin<2
     load('object_library.mat','library_of_objects');
 end
@@ -10,15 +10,16 @@ if nargin<1
 end
 cam_on_flag = false;
 if isempty('cam')
-    cam = webcam(2);
+    cam = webcam();
     cam_on_flag = true;
 end
 load('meanBackground.mat','meanBackground');
 load('handCameraParams.mat','handCameraParams');
 
 snap = takeSnapshot(cam); %Requires MATLAB Webcam Addon
-snap = undistortImage(snap, handCameraParams);
 gray_snap = rgb2gray(snap) - meanBackground;
+gray_snap = undistortImage(gray_snap', handCameraParams);
+gray_snap = gray_snap';
 [blob,img_BW] = basicImg2Blob(gray_snap);
 
 if numel(blob) > 1
@@ -69,7 +70,7 @@ end
 p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/object_library.mat'];
-save(filename,'library_of_objects');
+%save(filename,'library_of_objects');
 
 end
 
