@@ -1,7 +1,7 @@
 function [] = addObjectToLibrary(object_name,library_of_objects)
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-global cam one_mm_is_X_pixels N_Fingers Aux_Fig
+global cam one_mm_is_X_pixels N_Fingers
 if nargin<2
     load('object_library.mat','library_of_objects');
 end
@@ -76,7 +76,7 @@ end
 p = mfilename('fullpath');
 p(end-length(mfilename):end) = [];
 filename = [p,'/object_library.mat'];
-%save(filename,'library_of_objects');
+save(filename,'library_of_objects');
 
 end
 

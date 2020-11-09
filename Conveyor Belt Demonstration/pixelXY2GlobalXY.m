@@ -24,8 +24,8 @@ img_center = RES./2;
 x = x - img_center(1);
 y = y - img_center(2);
 
-x_mm_cam_frame = x * one_mm_is_X_pixels;
-y_mm_cam_frame = -y * one_mm_is_X_pixels;
+x_mm_cam_frame = x / one_mm_is_X_pixels;
+y_mm_cam_frame = -y / one_mm_is_X_pixels;
 
 X = x_mm_cam_frame + cam_x;
 Y = y_mm_cam_frame + cam_y;

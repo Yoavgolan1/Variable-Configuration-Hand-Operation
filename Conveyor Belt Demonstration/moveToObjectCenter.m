@@ -5,7 +5,7 @@ global robot
 
 [new_x,new_y] = pixelXY2GlobalXY(object.Centroid);
 newPose = transl(new_x,new_y,Conveyor_Belt_Height+safe_height)*rotz(-90*pi/180);
-robot.MoveJ(newPose);
+robot.MoveL(newPose);
 
 end 
 
