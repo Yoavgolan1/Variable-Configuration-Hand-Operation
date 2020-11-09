@@ -13,7 +13,7 @@ N_Fingers = 3;
 Finger_Radius = 10; %mm
 Hand_Center_Finger_Center_Dist = 70; %Constant, dependent of finger type
 Hand_Configuration.Distances = [94; 50; 60;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
-Hand_Configuration.Angles = deg2rad([45; 45; 270]); %Initial angles, relative %was 45 45 270???
+Hand_Configuration.Angles = deg2rad([90; 180; 90]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
 
@@ -53,7 +53,7 @@ for ii=1:Total_Number_Of_Objects
     end
     
     [GC_x, GC_y, GC_theta] = getHandCenterInWorldFrame(object,object_type);
-    Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+100)*roty(0)*rotz(GC_theta);
+    Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+200)*roty(0)*rotz(GC_theta);
     robot.MoveL(Above_Object_Position)
     Amount_Opened = Open_or_Close_Hand(a,'OPEN');
     robot.setSpeed(Slow_Speed);

@@ -17,22 +17,22 @@ while ~object_detected
     %gray_snap = gray_snap';
     [blobs,~] = basicImg2Blob(gray_snap);
     [object, object_type, confidence] = bestBlobMatch(blobs,library_of_objects);
-    %confidence
+    confidence
     if confidence>confidence_threshold
         object_detected = true;
-        figure(1);
+        %figure();
         %imshow(snap);
         %figure(2);
-        imshow(gray_snap);
+        %imshow(gray_snap);
         disp([object_type.Name, ' detected.']);
     end
     if ~isempty(object)
         %if confidence < confidence_threshold && (object.Centroid(1) > length(gray_snap(1,:))/3) && object.Centroid(1) < (length(gray_snap(1,:)) - length(gray_snap(1,:))/3) %if the object is in the center and the confidence is low, it must be a new object
             
-            [new_x,new_y] = pixelXY2GlobalXY(object.Centroid);
-            x_from_hand_center = new_x - (-195.033) -(-263.7);
-            y_from_hand_center = new_y - (-967.724);
-            disp(['x: ',num2str(x_from_hand_center),'     y: ',num2str(y_from_hand_center)]);
+            %[new_x,new_y] = pixelXY2GlobalXY(object.Centroid);
+            %x_from_hand_center = new_x - (-195.033) -(-263.7);
+            %y_from_hand_center = new_y - (-967.724);
+            %disp(['x: ',num2str(x_from_hand_center),'     y: ',num2str(y_from_hand_center)]);
             %disp('New Type of object')
             return
             %object.Centroid

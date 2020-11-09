@@ -29,7 +29,7 @@ if numel(blob) > 1
     error('Unclean image. More than one object detected');
 end
 
-[Polygon, normpolyfactor,~] = BWimg2poly(img_BW,0.02,one_mm_is_X_pixels,1);
+[Polygon, normpolyfactor,~] = BWimg2poly(imrotate(img_BW,-blob.Orientation),0.02,one_mm_is_X_pixels,1);
 Poly_Center = mean(Polygon); %Center of the polygon in camera frame
 Polygon = (1/normpolyfactor)*(Polygon - Poly_Center); %Zero the polygon center and rescale it
 Poly_Center = Poly_Center/normpolyfactor;
@@ -42,7 +42,7 @@ Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placement
 
 
 %Untilting the initial orientation
-R = rotz(deg2rad(-blob.Orientation));
+R = rotz(deg2rad(-blob.Orientation)); R = rotz(0);
 R = R(1:2,1:2); %Only use the Z reorientation part of the matrix for 2D
 
 %blob.Grasp_Center = Grasp_Center;

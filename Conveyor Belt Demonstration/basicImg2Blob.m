@@ -29,7 +29,8 @@ end
 BW_Image = undistortImage(BW_Image, handCameraParams);
 BW_Image = BW_Image';
 %BW_Image = imgBW2;
-imshow(BW_Image);
+%figure
+%imshow(BW_Image);
 %labeledImage = bwlabel(imgBW2, 8);
 %coloredLabels = label2rgb (labeledImage, 'hsv', 'k', 'shuffle'); % pseudo random color labels
 %blobMeasurements = regionprops(imgBW2, imgBW, 'all'); %older

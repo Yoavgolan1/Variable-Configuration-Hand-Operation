@@ -37,13 +37,15 @@ playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
 while abs(Init_count-count)<Required_distance
     [count,~] = readCount(encoder);
     %abs(readSpeed(encoder))
-    count;
+    count
     %     BP = Any_Buton_Pressed(a);
     %     if BP
     %         %warning(['Button pressed: ',BP])
     %         %break
     %     end
-    if abs(readSpeed(encoder)) < minspeed && toc>2
+    %abs(readSpeed(encoder))
+    time = toc;
+    if abs(readSpeed(encoder)) < minspeed && time>2
         medspeed = median([readSpeed(encoder) readSpeed(encoder) readSpeed(encoder)]);
         if medspeed < minspeed
             warning('Motor jammed!')
