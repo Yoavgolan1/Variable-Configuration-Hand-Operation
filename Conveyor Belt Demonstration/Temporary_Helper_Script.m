@@ -41,7 +41,7 @@ F3_Pixels = F3/one_mm_is_X_pixels;
 F3_pxls_obj = F3_Pixels + hand_center_pixels;
 line_f3 = plot([hand_center_pixels(1),F3_pxls_obj(1)],[hand_center_pixels(2),F3_pxls_obj(2)],'-y');
 
-UFP = object_type.Untilted_Finger_Placements/one_mm_is_X_pixels;
+UFP = object_type.Untilted_Finger_Placements*one_mm_is_X_pixels;
 TFP = UFP*R;
 FP = TFP + hand_center_pixels;
 fpp = plot(FP(:,1),FP(:,2),'om');
@@ -51,3 +51,26 @@ fpp = plot(FP(:,1),FP(:,2),'om');
 %delete(line_f3)
 %delete(fpp)
 
+
+image_size = fliplr(size(snap(:,:,1)));
+half_image_size = image_size/2;
+object_type.Centroid
+
+zeroed_centroid = object_type.Centroid - half_image_size;
+
+Hand_Center = object_type.Possible_Hand_Configs(1).Center;
+Hand_Center_Pixels = Hand_Center*one_mm_is_X_pixels;
+R = rotz(deg2rad(object_type.Orientation));
+R = R(1:2,1:2);
+Rotated_Hand_Center_Pixels = Hand_Center_Pixels*R;
+
+unzerod_RHCP = Rotated_Hand_Center_Pixels + half_image_size;
+handcenterplot = plot(unzerod_RHCP(1),unzerod_RHCP(2),'xg');
+
+F1 = object_type.Untilted_Finger_Placements(1,:);
+F1_Pixels = F1*one_mm_is_X_pixels;
+Rotated_F1_Pixels = F1_Pixels*R;
+Rotated_F1_Pixels = [Rotated_F1_Pixels(1),-Rotated_F1_Pixels(2)];
+
+unzerod_RF1P = Rotated_F1_Pixels + (half_image_size);
+f1plot = plot(unzerod_RF1P(1),unzerod_RF1P(2),'oy');

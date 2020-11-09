@@ -9,8 +9,8 @@ function [blobs,BW_Image] = basicImg2Blob(imggray)
 level = graythresh(imggray);
 %imgBW = imbinarize(imgS,level);
 
-imgBW = imbinarize(imggray,max(0.2,level));
-%imgBW = imbinarize(imggray, 0);
+%imgBW = imbinarize(imggray,max(0.2,level));
+imgBW = imbinarize(imggray, 0);
 % Remove empty spaces within the object
 obj = 0.02; % = 1%
 imgBW2 = bwareaopen(imgBW, round(obj*numel(imgBW)));

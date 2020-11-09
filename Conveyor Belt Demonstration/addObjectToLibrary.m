@@ -45,6 +45,8 @@ Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placement
 R = rotz(deg2rad(-blob.Orientation));
 R = R(1:2,1:2); %Only use the Z reorientation part of the matrix for 2D
 
+%blob.Grasp_Center = Grasp_Center;
+plot(Grasp_Center(1,1),Grasp_Center(1,2),'.k');
 Untilted_Grasp_Center = Grasp_Center*R;
 Untilted_Finger_Placements = Grasp_Finger_Placements*R;
 
@@ -55,7 +57,11 @@ blob.Name = object_name;
 blob.Untilted_Grasp_Center = Untilted_Grasp_Center;
 blob.Untilted_Finger_Placements = Untilted_Finger_Placements;
 blob.N_Fingers_For_Analysis = N_Fingers;
+for ii=1:length(Possible_Hand_Configs)
+    Possible_Hand_Configs(ii).Center = Possible_Hand_Configs(ii).Center*R;
+end
 blob.Possible_Hand_Configs = Possible_Hand_Configs;
+blob.Polygon = Polygon;
 
 if isempty(library_of_objects)
     library_of_objects = blob;
