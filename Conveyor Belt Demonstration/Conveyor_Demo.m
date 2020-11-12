@@ -13,17 +13,17 @@ N_Fingers = 3;
 Finger_Radius = 10; %mm
 Hand_Center_Finger_Center_Dist = 70; %Constant, dependent of finger type
 Hand_Configuration.Distances = [94; 50; 60;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
-Hand_Configuration.Angles = deg2rad([90; 180; 90]); %Initial angles, relative %was 45 45 270???
+Hand_Configuration.Angles = deg2rad([90; 90; 180]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
 
 %Run mode - simulation only, or run on robot
 MODE = 'SIMULATION';
-%MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
+MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
-a = InitArduino('COM4'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
+a = InitArduino('COM10'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
 b = InitArduino_Conveyor('COM9');
 Robot_COM = 'COM2';
 InitRoboDK_Conveyer();
