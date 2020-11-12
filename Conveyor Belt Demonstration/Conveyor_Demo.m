@@ -19,7 +19,7 @@ Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Ini
 
 %Run mode - simulation only, or run on robot
 MODE = 'SIMULATION';
-MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
+%MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
@@ -38,16 +38,21 @@ cam = webcam();
 Current_Object_Type = [];
 new_type_of_object = false;
 Total_Number_Of_Objects = 1;
+Number_Of_New_Itemss = 0;
+This_Item_Count = 0;
 for ii=1:Total_Number_Of_Objects
     [~,~] = waitForConveyorObject(0.95);
     setConveyorBeltSpeed(b,0);
     pause(0.2);
     [object, object_type] = waitForConveyorObject();
     new_type_of_object = ~isequal(object_type.Name,Current_Object_Type);
+    This_Item_Count = This_Item_Count+1;
     if new_type_of_object
+        This_Item_Count = 1;
+        Number_Of_New_Itemss = Number_Of_New_Itemss +1;
         Current_Object_Type = object_type.Name;
         [Best_Config, Distance_Instructions] = ...
-        Find_Easiest_Reconfig(Hand_Configuration, object_type.Possible_Hand_Configs);
+            Find_Easiest_Reconfig(Hand_Configuration, object_type.Possible_Hand_Configs);
         Instructions = Instruction_Blender(Distance_Instructions,Hand_Configuration,Best_Config.Angles);
         Execute_Instructions(Instructions,'ROBOT_BODY',a);
     end
@@ -56,6 +61,24 @@ for ii=1:Total_Number_Of_Objects
     Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+200)*roty(0)*rotz(GC_theta);
     robot.MoveL(Above_Object_Position)
     Amount_Opened = Open_or_Close_Hand(a,'OPEN');
-    robot.setSpeed(Slow_Speed);
+    Grasp_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+20)*roty(0)*rotz(GC_theta);
+    robot.MoveL(Grasp_Position)
+    Open_or_Close_Hand(a,'CLOSE',Amount_Opened);
+    robot.MoveL(Above_Object_Position)
+    
+    [DOx,DOy,DOz] = getDropoffPosition(This_Item_Count,Number_Of_New_Itemss);
+    Drop_Off_Position = transl(DOx,DOy,DOz)*roty(0)*rotz(0);
+    Above_Drop_Off_Position =  transl(DOx,DOy,DOz+safe_height)*roty(0)*rotz(0);
+    
+    robot.MoveL(Above_Drop_Off_Position)
+    robot.MoveL(Drop_Off_Position)
+    Amount_Opened = Open_or_Close_Hand(a,'OPEN');
+    robot.MoveL(Above_Drop_Off_Position)
+    Open_or_Close_Hand(a,'CLOSE',Amount_Opened);
+    robot.MoveJ(Above_Conveyor_Belt);
+    
+    
+    
+    %robot.setSpeed(Slow_Speed);
     
 end
