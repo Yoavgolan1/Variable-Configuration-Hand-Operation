@@ -48,10 +48,22 @@ Above_Conveyor_Belt = transl(-194.436,-967.691,Conveyor_Belt_Height + Belt_Cam_D
 if isequal(MODE,'REAL_ROBOT')
     % Try to connect to the robot (make sure to first provide the IP in the
     % RoboDK User Interface)
-    success = robot.Connect(Robot_COM);
+    try
+        success = robot.Connect(Robot_COM);
+    catch
+        pause(2);
+        success = robot.Connect(Robot_COM);
+        if ~success
+            pause(2);
+            success = robot.Connect(Robot_COM);
+        end
+        if ~success
+            error('Not connected to RDK')
+        end
+    end
     % Check if you are properly connected to the robot
     [status, status_msg] = robot.ConnectedState();
-    if status ~= Robolink.ROBOTCOM_READY
+    if status ~= 1%Robolink.ROBOTCOM_READY
        fprintf(['Failed to connect to the robot:\n' , status_msg]);
        fprintf('\nPress enter to continue in simulation mode.\n');
        pause;

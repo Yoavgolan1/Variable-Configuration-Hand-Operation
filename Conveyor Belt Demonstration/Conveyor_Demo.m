@@ -1,5 +1,6 @@
 clear all
 close all
+instrreset
 %% Initialization
 
 global Hand_Configuration MODE Grasp_Finger_Placements Best_Config ...
@@ -12,7 +13,7 @@ one_mm_is_X_pixels = (640-18)/420;
 N_Fingers = 3;
 Finger_Radius = 10; %mm
 Hand_Center_Finger_Center_Dist = 70; %Constant, dependent of finger type
-Hand_Configuration.Distances = [94; 50; 60;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
+Hand_Configuration.Distances = [97.4; 48.8; 44.3;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
 Hand_Configuration.Angles = deg2rad([90; 90; 180]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
@@ -38,10 +39,10 @@ cam = webcam();
 Current_Object_Type = [];
 new_type_of_object = false;
 Total_Number_Of_Objects = 1;
-Number_Of_New_Itemss = 0;
+Number_Of_New_Items = 0;
 This_Item_Count = 0;
 for ii=1:Total_Number_Of_Objects
-    [~,~] = waitForConveyorObject(0.95);
+    [~,~] = waitForConveyorObject(0.7);
     setConveyorBeltSpeed(b,0);
     pause(0.2);
     [object, object_type] = waitForConveyorObject();
@@ -49,7 +50,7 @@ for ii=1:Total_Number_Of_Objects
     This_Item_Count = This_Item_Count+1;
     if new_type_of_object
         This_Item_Count = 1;
-        Number_Of_New_Itemss = Number_Of_New_Itemss +1;
+        Number_Of_New_Items = Number_Of_New_Items +1;
         Current_Object_Type = object_type.Name;
         [Best_Config, Distance_Instructions] = ...
             Find_Easiest_Reconfig(Hand_Configuration, object_type.Possible_Hand_Configs);
@@ -61,12 +62,12 @@ for ii=1:Total_Number_Of_Objects
     Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+200)*roty(0)*rotz(GC_theta);
     robot.MoveL(Above_Object_Position)
     Amount_Opened = Open_or_Close_Hand(a,'OPEN');
-    Grasp_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+20)*roty(0)*rotz(GC_theta);
+    Grasp_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+50)*roty(0)*rotz(GC_theta);
     robot.MoveL(Grasp_Position)
     Open_or_Close_Hand(a,'CLOSE',Amount_Opened);
     robot.MoveL(Above_Object_Position)
     
-    [DOx,DOy,DOz] = getDropoffPosition(This_Item_Count,Number_Of_New_Itemss);
+    [DOx,DOy,DOz] = getDropoffPosition(This_Item_Count,Number_Of_New_Items);
     Drop_Off_Position = transl(DOx,DOy,DOz)*roty(0)*rotz(0);
     Above_Drop_Off_Position =  transl(DOx,DOy,DOz+safe_height)*roty(0)*rotz(0);
     

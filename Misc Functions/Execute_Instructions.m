@@ -39,7 +39,7 @@ if isequal(Environment_Type,'ROBOT_BODY')
     PPL = [0,-560,365];
     Pre_Press_Location_Transl = transl(PPL(1),PPL(2),PPL(3));
     %PL = [0,-522,365];
-    PL = [0,-532,365]; %works for finger 1
+    PL = [0,-525,365]; %works for finger 1
     %PL = [0,-525,365]; %works for finger 2
     Press_Location_Transl = transl(PL(1),PL(2),PL(3));
     UM = PPL-PL;
@@ -79,15 +79,18 @@ for ii=1:N_Instructions
                 robot.MoveJ(Pre_Press_Location_Transl*rotx(0)*roty(0)*rotz(deg2rad(180-Finger_Angle)));
             end
             robot.setSpeed(Slow_Speed);
-            if Finger_ID==2 %This "if" is because apparently Finger 2 has a slightly different length. Will be fixed later.
-                Press_Location_Transl = Press_Location_Transl*transl(0,9,0);
-            end
+            
+            %if Finger_ID==2 %This "if" is because apparently Finger 2 has a slightly different length. Will be fixed later.
+            %    Press_Location_Transl = Press_Location_Transl*transl(0,9,0);
+            %end
+            %bug fixed
             
             robot.MoveL(Press_Location_Transl*rotx(0)*roty(0)*rotz(deg2rad(180-Finger_Angle)));
             
-            if Finger_ID==2 %This "if" is because apparently Finger 2 has a slightly different length. Will be fixed later.
-                Press_Location_Transl = Press_Location_Transl*transl(0,-9,0); 
-            end
+            %if Finger_ID==2 %This "if" is because apparently Finger 2 has a slightly different length. Will be fixed later.
+            %    Press_Location_Transl = Press_Location_Transl*transl(0,-9,0); 
+            %end
+            %bug fixed
             
             
             switch Finger_ID
