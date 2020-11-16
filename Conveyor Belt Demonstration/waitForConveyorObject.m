@@ -7,11 +7,12 @@ if nargin<1
 end
 object_detected = false;
 load('object_library.mat','library_of_objects');
-load('meanBackground.mat','meanBackground');
+load('meanBackgroundRGB.mat','meanBackgroundRGB');
 
 while ~object_detected
     snap = takeSnapshot(cam); %Requires MATLAB Webcam Addon
-    gray_snap = rgb2gray(snap) - meanBackground;
+    snap = snap - meanBackgroundRGB;
+    gray_snap = rgb2gray(snap);
     gray_snap = gray_snap(2:end-1,2:end-1);
     %gray_snap = undistortImage(gray_snap', handCameraParams);
     %gray_snap = gray_snap';

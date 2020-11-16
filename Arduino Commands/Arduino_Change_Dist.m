@@ -37,7 +37,7 @@ playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
 while abs(Init_count-count)<Required_distance
     [count,~] = readCount(encoder);
     %abs(readSpeed(encoder))
-    count
+    %count
     %     BP = Any_Buton_Pressed(a);
     %     if BP
     %         %warning(['Button pressed: ',BP])
@@ -45,6 +45,18 @@ while abs(Init_count-count)<Required_distance
     %     end
     %abs(readSpeed(encoder))
     time = toc;
+    currentSpeed =  abs(readSpeed(encoder));
+    
+    if currentSpeed < minspeed 
+        minspeed = 0.05; %rpm
+        STEPPER_FREQUENCY = 200; %Hz
+        playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
+        pause(0.1);
+    elseif currentSpeed > minspeed 
+        minspeed = 1;
+        STEPPER_FREQUENCY = 3000; %Hz
+        playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
+    end
     if abs(readSpeed(encoder)) < minspeed && time>2
         medspeed = median([readSpeed(encoder) readSpeed(encoder) readSpeed(encoder)]);
         if medspeed < minspeed
@@ -62,10 +74,10 @@ delta_travelled = count*mm_per_tick;
 
 N_Fingers = length(Initial_Distances);
 for ii=1:N_Fingers
-    if ii == (Finger_Pressed+1)
+    if ii == (Finger_Pressed+1) && (Finger_Pressed~=0)
         continue
     else
-        Hand_Configuration.Distances(ii) = Hand_Configuration.Distances(ii) + delta_travelled;
+        Hand_Configuration.Distances(ii) = Hand_Configuration.Distances(ii) - delta_travelled;
     end
 end
 clear encoder

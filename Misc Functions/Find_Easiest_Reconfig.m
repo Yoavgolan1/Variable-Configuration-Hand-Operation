@@ -16,6 +16,8 @@ for ii = 1:N_Configs
     disp([num2str(ii),'/',num2str(N_Configs),' Hand center options tested']);
     This_Config = Possible_Hand_Configs(ii);
     [IsPossible, N_Steps, Path] = Produce_Distance_Instructions_Vec_Decomp(Hand_Configuration, Possible_Hand_Configs(ii).Distances, Lowest_N_Steps);
+    [IsPossible, N_Steps, Path] = Produce_Distance_Instructions(Hand_Configuration, Possible_Hand_Configs(ii).Distances, Lowest_N_Steps);
+
     if N_Steps < Lowest_N_Steps && IsPossible
         Lowest_N_Steps = N_Steps;
         Best_Path = Path;

@@ -1,6 +1,9 @@
-function [confidence,corrected_blob] = compareBlobs(blob,lib_obj)
+function [confidence,corrected_blob] = compareBlobs(blob,lib_obj,last_pass)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
+if nargin<3
+    last_pass = false;
+end
 
 errArea = (blob.Area - lib_obj.Area)/lib_obj.Area;
 errMajorAxisLength = (blob.MajorAxisLength - lib_obj.MajorAxisLength)/lib_obj.MajorAxisLength;
@@ -41,13 +44,16 @@ intersection_flipped = imrotate(BSI,180)~=LISI;
 image_compare_err = sum(sum(intersection))/numel(intersection);
 flipped_image_compare_err = sum(sum(intersection_flipped))/numel(intersection_flipped);
 
-if image_compare_err > flipped_image_compare_err %The rotated image works better
+if image_compare_err > flipped_image_compare_err && last_pass%The rotated image works better
     if blob.Orientation<0
         blob.Orientation = blob.Orientation + 180;
     else
         blob.Orientation = blob.Orientation - 180;
     end
     image_compare_err = flipped_image_compare_err;
+    flipped_flag = true;
+else
+    image_compare_err = min(image_compare_err,flipped_image_compare_err);
 end
 
 errs = [errArea, errMajorAxisLength, errMinorAxisLength, errEccentricity,...

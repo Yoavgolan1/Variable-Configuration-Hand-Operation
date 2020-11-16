@@ -39,7 +39,7 @@ if isequal(Environment_Type,'ROBOT_BODY')
     PPL = [0,-560,365];
     Pre_Press_Location_Transl = transl(PPL(1),PPL(2),PPL(3));
     %PL = [0,-522,365];
-    PL = [0,-525,365]; %works for finger 1
+    PL = [0,-528,365]; %works for finger 1
     %PL = [0,-525,365]; %works for finger 2
     Press_Location_Transl = transl(PL(1),PL(2),PL(3));
     UM = PPL-PL;
@@ -116,6 +116,7 @@ for ii=1:N_Instructions
             Robot_Pos = robot.Pose();
             robot.MoveL(Unpress_Motion*Robot_Pos);
             robot.setSpeed(Normal_Speed);
+            Finger_ID = 0;
             %robot.MoveL(Pre_Press_Location*rotx(0)*roty(0)*rotz(deg2rad(Finger_Angle+90)));
             
         case 'ROTATE_HAND'

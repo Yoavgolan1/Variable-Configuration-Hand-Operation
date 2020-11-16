@@ -52,6 +52,7 @@ SGrid = round(Polygon_Perimeter/Division);           % Polygon's perimeter grid 
 Ind                 = 1;
 JPos                = [0 1 0; -1 0 0; 0 0 1];   %  90 deg Rotation Matrix.
 
+figure
 plot([Shape.Vertex(:,1);Shape.Vertex(1,1)],[Shape.Vertex(:,2);Shape.Vertex(1,2)])
 hold on
 axis equal

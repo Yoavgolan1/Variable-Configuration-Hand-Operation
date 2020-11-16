@@ -35,7 +35,7 @@ Polygon = (1/normpolyfactor)*(Polygon - Poly_Center); %Zero the polygon center a
 Poly_Center = Poly_Center/normpolyfactor;
 
 P1.Vertex = Polygon;
-MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,50000,0.02,"SPHERE_VOLUME");
+MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,500,0.02,"SPHERE_VOLUME");
 [Grasp_Center, Grasp_Finger_Placements] = Best_Grasp_That_Works(MyConfigs);
 
 Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placements);

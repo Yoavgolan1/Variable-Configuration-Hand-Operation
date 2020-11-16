@@ -99,7 +99,7 @@ for ii=1:N_Configs
     end
 end
 
-f = figure(1);
+%f = figure(1);
 grid on
 axis equal
 hold on
@@ -110,8 +110,8 @@ for jj=1:N_Fingers
     Circ_Cent(jj) =  plot(Finger_Places(jj,1),Finger_Places(jj,2),'ok','MarkerFaceColor',fing_color);
     fing_color = [1 0 0];
 end
-savefig('Aux_Fig.fig')
-Aux_Fig.Finger_Placements = Circ_Cent;
+%savefig('Aux_Fig.fig')
+%Aux_Fig.Finger_Placements = Circ_Cent;
 
 Grasp = Good_Point;
 Finger_Placements = Finger_Places;

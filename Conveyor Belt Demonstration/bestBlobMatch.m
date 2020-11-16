@@ -17,7 +17,12 @@ maximum = max(max(confidence_matrix));
 [x,y]=find(confidence_matrix==maximum,1,'first');
 confidence = maximum;
 object_type = library_of_objects(y);
-object = blobs(x);
+if numel(library_of_objects(y)) > 0
+    [~,object] = compareBlobs(blobs(x),library_of_objects(y),1);
+else
+    object = blobs(x);
+end
+
 if isempty(confidence)
     confidence = 0;
 end

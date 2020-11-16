@@ -34,6 +34,7 @@ path = [pwd,'\RoboDK Files\'];
 RDK.AddFile([path, 'Yoavs_Hand_Conveyor_UP6.rdk']);
 
 robot = RoboDK_getRobot();
+pause(10);
 tool = RDK.Item('Hand');
 station = RDK.Item('Yoavs_Hand');
 Conveyor_Belt_Frame = RDK.Item('Conveyor Belt Base');
@@ -63,7 +64,7 @@ if isequal(MODE,'REAL_ROBOT')
     end
     % Check if you are properly connected to the robot
     [status, status_msg] = robot.ConnectedState();
-    if status ~= 1%Robolink.ROBOTCOM_READY
+    if status ~= Robolink.ROBOTCOM_READY
        fprintf(['Failed to connect to the robot:\n' , status_msg]);
        fprintf('\nPress enter to continue in simulation mode.\n');
        pause;
