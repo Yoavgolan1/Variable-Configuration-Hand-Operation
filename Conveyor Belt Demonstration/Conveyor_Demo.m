@@ -3,7 +3,7 @@ close all
 instrreset
 %% Initialization
 
-global Hand_Configuration MODE Grasp_Finger_Placements Best_Config ...
+global Hand_Configuration MODE Best_Config ...
     Hand_Center_Finger_Center_Dist Finger_Radius N_Fingers...
     CONVEYOR_SPEED cam one_mm_is_X_pixels;
 
@@ -20,7 +20,7 @@ Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Ini
 
 %Run mode - simulation only, or run on robot
 MODE = 'SIMULATION';
-MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
+%MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator

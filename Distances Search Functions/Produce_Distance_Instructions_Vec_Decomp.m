@@ -12,7 +12,8 @@ if nargin<4
 end
 IsPossible = true;
 
-global f0_min f0_max f1_min f1_max f1_pressed_min Borders Dimension Last_Index Movement_Vectors Border_HyperPlanes All_Locations
+global f0_min f0_max f1_min f1_max f1_pressed_min Borders Dimension
+global Last_Index Movement_Vectors Border_HyperPlanes All_Locations
 global Hand_Center_Finger_Center_Dist
 
 f0_min = 0;
@@ -104,7 +105,7 @@ end
 Path(1,:) = []; %remove common location
 Path_Struct_Form(1) = []; %remove common location
 %Full_Path = [Path_Start_Locations;Path];
-Full_Path = [Path_Start,Path_Struct_Form];
+Full_Path = fliplr([Path_Start,Path_Struct_Form]);
 
 
 Instructions = Full_Path;
