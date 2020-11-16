@@ -5,8 +5,8 @@ function [confidence,corrected_blob] = compareBlobs(blob,lib_obj)
 errArea = (blob.Area - lib_obj.Area)/lib_obj.Area;
 errMajorAxisLength = (blob.MajorAxisLength - lib_obj.MajorAxisLength)/lib_obj.MajorAxisLength;
 errMinorAxisLength = (blob.MinorAxisLength - lib_obj.MinorAxisLength)/lib_obj.MinorAxisLength;
-%errEccentricity = (blob.Eccentricity - lib_obj.Eccentricity)/lib_obj.Eccentricity;
-%errEquivDiameter = (blob.EquivDiameter - lib_obj.EquivDiameter)/lib_obj.EquivDiameter;
+errEccentricity = (blob.Eccentricity - lib_obj.Eccentricity)/lib_obj.Eccentricity;
+errEquivDiameter = (blob.EquivDiameter - lib_obj.EquivDiameter)/lib_obj.EquivDiameter;
 errPerimeter = (blob.Perimeter - lib_obj.Perimeter)/lib_obj.Perimeter;
 %errCircularity = (blob.Circularity - lib_obj.Circularity)/lib_obj.Circularity;
 
@@ -50,13 +50,15 @@ if image_compare_err > flipped_image_compare_err %The rotated image works better
     image_compare_err = flipped_image_compare_err;
 end
 
-errs = [errArea, errMajorAxisLength, errMinorAxisLength,...
-    errPerimeter, image_compare_err];
+errs = [errArea, errMajorAxisLength, errMinorAxisLength, errEccentricity,...
+    errEquivDiameter, errPerimeter, image_compare_err];
 N_errs = numel(errs);
 
 SSE = sqrt(sum(errs.^2));
+max_err = max(errs);
 
 confidence = 1 - min(SSE/N_errs,1);
+confidence = 1 - max_err;
 corrected_blob = blob;
 end
 

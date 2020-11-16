@@ -12,7 +12,7 @@ one_mm_is_X_pixels = (640-18)/420;
 % The initial hand configuration
 N_Fingers = 3;
 Finger_Radius = 10; %mm
-Hand_Center_Finger_Center_Dist = 70; %Constant, dependent of finger type
+Hand_Center_Finger_Center_Dist = 20; %Constant, dependent of finger type. Regular is 70; "small size" is 20; "large size" is 163
 Hand_Configuration.Distances = [97.4; 48.8; 44.3;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
 Hand_Configuration.Angles = deg2rad([90; 90; 180]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
