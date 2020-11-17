@@ -1,7 +1,7 @@
 function [Polygon, normpolyfactor,Centroid] = BWimg2poly(snap, polytol,one_mm_is_X_pixels,showresults)
 %BWIMG2POLY accepts an image, finds an object in it, and converts it to a polygon.
 %   img2poly accepts an black and white image "snap", a fit tolerance for polygonal
-%   appoximation "polytol", a ration between pixels and cm in the real
+%   appoximation "polytol", a ratio between pixels and mm in the real
 %   world "one_mm_is_X_pixels", and an option to show the results
 %   "showresults". The lower the value of polytol, the better the
 %   approximation, but the longer the runtime and noise of the polygon.

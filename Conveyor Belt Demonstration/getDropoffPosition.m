@@ -9,7 +9,7 @@ Pallet_Pose = Pallet_Frame.PoseAbs();
 row_iter = ith_Object_In_Series-1;
 col_iter = Number_Of_New_Objects - 1;
 
-row_displacement = 150; %mm
+row_displacement = 210; %mm
 col_displacement = -200; %mm
 
 x = Pallet_Pose(1,4) + row_iter*row_displacement;

@@ -1,6 +1,7 @@
 function [blobs,BW_Image] = basicImg2Blob(imggray)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
+global Finger_Radius one_mm_is_X_pixels
 %img = autocontrast(snap); % Automatic contrast to optimum level (A = input, B = output)
 %img = flipud(img);
 %imghsv = rgb2hsv(img);
@@ -43,6 +44,20 @@ if ~isempty(blobMeasurements)
     rotated_img = imrotate(BW_Image,-blobMeasurements.Orientation);
     straightened_image = regionprops(rotated_img,'Image');
     blobMeasurements.StraightImage = straightened_image.Image;
+    
+    %Replace the area centroid with perimeter centroid
+    SE = strel('disk', floor(one_mm_is_X_pixels*Finger_Radius));
+    BW_Image_dilated = imdilate(BW_Image,SE);
+    
+    Perim = bwboundaries(BW_Image_dilated);
+    Perim = Perim{1};
+    Mean_Perim = mean(Perim);
+    Mean_Perim = [Mean_Perim(2),length(BW_Image_dilated(:,1))-Mean_Perim(1)];
+    
+    Object_Perimeter = bwperim(BW_Image_dilated);
+    Perim_blob = regionprops(Object_Perimeter,'Centroid');
+    Perim_Cent = Perim_blob.Centroid;
+    blobMeasurements.Centroid = Perim_Cent; 
 end
 blobs = blobMeasurements;
 % Clean noise with disk using a "close" operation

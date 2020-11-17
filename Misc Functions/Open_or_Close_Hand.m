@@ -27,7 +27,7 @@ elseif isequal(cmd,'CLOSE')
     This_Instruction{1}.Value = -close_amount;
 elseif isequal(cmd,'FORCE_CLOSE')
     This_Instruction{1}.Command = 'CHANGE_DIST';
-    This_Instruction{1}.Value = -close_amount-20; %Close 20mm more
+    This_Instruction{1}.Value = -close_amount-50; %Close 50mm more
 end
 Execute_Instructions(This_Instruction,'NULL',a);
 end

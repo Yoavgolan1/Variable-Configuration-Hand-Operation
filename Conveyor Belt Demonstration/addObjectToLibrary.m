@@ -29,13 +29,23 @@ if numel(blob) > 1
     error('Unclean image. More than one object detected');
 end
 
-[Polygon, normpolyfactor,~] = BWimg2poly(imrotate(img_BW,-blob.Orientation),0.02,one_mm_is_X_pixels,1);
+[Polygon, normpolyfactor,~] = BWimg2poly(imrotate(img_BW,-blob.Orientation),0.01,one_mm_is_X_pixels,1);
 Poly_Center = mean(Polygon); %Center of the polygon in camera frame
 Polygon = (1/normpolyfactor)*(Polygon - Poly_Center); %Zero the polygon center and rescale it
 Poly_Center = Poly_Center/normpolyfactor;
 
+BW_Image = flipud(imrotate(img_BW,-blob.Orientation));
+SE = strel('disk', floor(one_mm_is_X_pixels*Finger_Radius));
+BW_Image_dilated = imdilate(BW_Image,SE);
+Object_Perimeter = bwperim(BW_Image_dilated);
+Perim_blob = regionprops(Object_Perimeter,'Centroid');
+Perim_Cent = Perim_blob.Centroid;
+
+Perim_Cent_to_Poly_Cent_Vector = Poly_Center-Perim_Cent;
+Polygon = Polygon + Perim_Cent_to_Poly_Cent_Vector;
+
 P1.Vertex = Polygon;
-MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,500,0.02,"SPHERE_VOLUME");
+MyConfigs = Monte_Carlo_Grasp_Configurations(N_Fingers,P1,0.01,50000,0.02,"SPHERE_VOLUME");
 [Grasp_Center, Grasp_Finger_Placements] = Best_Grasp_That_Works(MyConfigs);
 
 Possible_Hand_Configs = Grasp_To_Hand_Config(Grasp_Center,Grasp_Finger_Placements);

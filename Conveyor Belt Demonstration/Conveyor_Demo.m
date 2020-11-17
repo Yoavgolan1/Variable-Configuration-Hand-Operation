@@ -13,14 +13,14 @@ one_mm_is_X_pixels = (640-18)/420;
 N_Fingers = 3;
 Finger_Radius = 10; %mm
 Hand_Center_Finger_Center_Dist = 20; %Constant, dependent of finger type. Regular is 70; "small size" is 20; "large size" is 163
-Hand_Configuration.Distances = [44.14; 112.75; 57;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
+Hand_Configuration.Distances = [61; 122; 66.3;]+Hand_Center_Finger_Center_Dist; %Set the distances of the fingers from the min point
 Hand_Configuration.Angles = deg2rad([90; 90; 180]); %Initial angles, relative %was 45 45 270???
 Hand_Configuration.Center = [0,0];
 Hand_Configuration.Abs_Angles = Rel2Abs_Angles(Hand_Configuration.Angles'); %Initial angles, absolute
 
 %Run mode - simulation only, or run on robot
 MODE = 'SIMULATION';
-%MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
+MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 %assumes that what we perceive as real life is not actually a simulation.
 
 %Initialize Arduino microcontroller and RoboDK robot simulator
@@ -30,7 +30,7 @@ Robot_COM = 'COM2';
 InitRoboDK_Conveyer();
 
 %% Start motion
-CONVEYOR_SPEED = 20; %mm/sec
+CONVEYOR_SPEED = 50; %mm/sec
 robot.MoveJ(Above_Conveyor_Belt);
 cam = webcam();
 
@@ -43,10 +43,10 @@ This_Item_Count = 0;
 
 for ii=1:Total_Number_Of_Objects
     setConveyorBeltSpeed(b,CONVEYOR_SPEED);
-    [~,~] = waitForConveyorObject(0.95);
+    [~,~] = waitForConveyorObject(0.90);
     setConveyorBeltSpeed(b,0);
-    pause(0.2);
-    [object, object_type] = waitForConveyorObject();
+    pause(0.4);
+    [object, object_type] = waitForConveyorObject(0);
     drawObject();
     new_type_of_object = ~isequal(object_type.Name,Current_Object_Type);
     This_Item_Count = This_Item_Count+1;
@@ -73,7 +73,7 @@ for ii=1:Total_Number_Of_Objects
     robot.MoveL(Above_Object_Position)
     
     [DOx,DOy,DOz] = getDropoffPosition(This_Item_Count,Number_Of_New_Items);
-    Drop_Off_Position = transl(DOx,DOy,DOz)*roty(0)*rotz(0);
+    Drop_Off_Position = transl(DOx,DOy,DOz+20)*roty(0)*rotz(0);
     Above_Drop_Off_Position =  transl(DOx,DOy,DOz+safe_height)*roty(0)*rotz(0);
     
     robot.MoveJ(Above_Drop_Off_Position)

@@ -25,7 +25,7 @@ rotated_poly = poly_pix*R;
 rotated_poly = [rotated_poly(:,1),-rotated_poly(:,2)];
 poly_cam_frame = rotated_poly + object.Centroid;
 
-polyplot = plot(poly_cam_frame(:,1),poly_cam_frame(:,2),'-y');
+polyplot = plot([poly_cam_frame(:,1);poly_cam_frame(1,1)],[poly_cam_frame(:,2);poly_cam_frame(1,2)],'-y');
 ctr = object.Centroid;
 theta = object.Orientation;
 xMajor = ctr(1)  +  [ -1 +1 ] * object.MajorAxisLength*cosd(-theta)/2;
