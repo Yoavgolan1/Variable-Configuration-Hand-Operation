@@ -72,9 +72,9 @@ for ii=1:Total_Number_Of_Objects
     Open_or_Close_Hand(a,'FORCE_CLOSE',Amount_Opened);
     robot.MoveL(Above_Object_Position)
     
-    [DOx,DOy,DOz] = getDropoffPosition(This_Item_Count,Number_Of_New_Items);
-    Drop_Off_Position = transl(DOx,DOy,DOz+20)*roty(0)*rotz(0);
-    Above_Drop_Off_Position =  transl(DOx,DOy,DOz+safe_height)*roty(0)*rotz(0);
+    [DOx,DOy,DOz,DO_Rz] = getDropoffPosition(This_Item_Count,Number_Of_New_Items,object_type);
+    Drop_Off_Position = transl(DOx,DOy,DOz+20)*roty(0)*rotz(DO_Rz);
+    Above_Drop_Off_Position =  transl(DOx,DOy,DOz+safe_height)*roty(0)*rotz(DO_Rz);
     
     robot.MoveJ(Above_Drop_Off_Position)
     robot.MoveL(Drop_Off_Position)
