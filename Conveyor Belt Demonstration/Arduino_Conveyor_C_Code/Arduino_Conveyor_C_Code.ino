@@ -1,11 +1,14 @@
-//#include <PIDController.h>
+// This code controls the conveyor belt motor through an Arduino board.
+// The Arduino is attached to a rotary encoder mounted on a motor, and a motor driver.
+// Serial communication is used to get the goal speed, or return the current speed.
+// PID control is used to achieve speed control.
+
+// setPWMFrequency is used to match the motor's resonance. Function taken from https://playground.arduino.cc/Code/PwmFrequency/
+// parts of the serial communication taken from https://forum.arduino.cc/index.php?topic=396450
 
 #define ENCODERPPR 1024
-//#define PI 3.1415926535
 #define TRANSMISSION_RATIO 60
 #define R 24
-
-//PIDController pid;
 
 const int ENC_A = 2;
 const int ENC_B = 3;
@@ -19,8 +22,6 @@ int interval = 300;
 long previousMillis = 0;
 long currentMillis = 0;
 long elapsedMillis = 1000;
-
-int stupidIntegrator = 0;
 
 float rps = 0;
 boolean measureRpm = false;
@@ -56,11 +57,6 @@ void setup() {
   EncoderInit();//Initialize the module
   pinMode( MOTOR1A , OUTPUT);
   pinMode( MOTOR1DIR , OUTPUT);
-  //  pid.begin();          // initialize the PID instance
-  //  pid.setpoint(0);    // The "goal" the PID controller tries to "reach"
-  //  pid.tune(0.08, 0.00001, 0);    // Tune the PID, arguments: kP, kI, kD
-  //  pid.limit(-255, 255);    // Limit the PID output between 0 and 255, this is important to get rid of integral windup!
-
   setPwmFrequency(MOTOR1A, 1);
 }
 
@@ -68,34 +64,17 @@ void setup() {
 
 void loop() {
   digitalWrite(LED_BUILTIN, LOW); //turn off LED
-  //  delay(500);
-
-
   if (Serial.available() > 0) {
     digitalWrite(LED_BUILTIN, HIGH); //flash LED everytime data is available
     delay(50);
     recvWithEndMarker();
     showNewNumber();
-
-    //incomingByte1 = Serial.read(); //read incoming data
-    //Serial.println(incomingByte1, HEX); //print data
-    //Serial.print("OK"); //print OK message
-    if (dataNumber == 10000) {
+    if (dataNumber == 10000) {  //Speed query code
       Serial.println(currentSpeed);
     }
     else
       goalSpeed = dataNumber;
-    //errSum = 0;
-    //Serial.print(goalSpeed);
-
   }
-
-  //goalSpeed = 20;
-  double baseMotorPower = abs(goalSpeed) * 1 + 9; //y= a*x + b
-  baseMotorPower = 0;
-
-
-  //  pid.setpoint(goalSpeed);
 
   currentMillis = millis();
   if (currentMillis - previousMillis > interval) {
@@ -106,21 +85,11 @@ void loop() {
     rps = (float)(((float)encoderValue / (float)((float)elapsedMillis / (float)1000)) / (float)ENCODERPPR);
     encoderValue = 0;
 
-    //currentSpeed = rps * 2 * PI * R * TRANSMISSION_RATIO;
     currentSpeed = abs(rps * TRANSMISSION_RATIO);
 
-    //    output = pid.compute(currentSpeed);    // Let the PID compute the value, returns the optimal output
-    //Serial.println(baseMotorPower);
-    //    output = round(constrain(output + baseMotorPower, -255, 255));
-
-
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////
+    //PID speed control
     unsigned long now = millis();
     double timeChange = (double)(now - lastTime);
-
     double error = abs(goalSpeed) - currentSpeed;
     errSum += error * timeChange;
     double dErr = (error - lastErr) / timeChange;
@@ -129,38 +98,21 @@ void loop() {
     lastTime = now;
 
     double newOutput = (Kp * error + Ki * errSum + Kd * dErr);
-    output = round(constrain(newOutput + baseMotorPower, 0, 255));
+    output = round(constrain(newOutput, 0, 255));
 
-    output = abs(goalSpeed) * 1 + 9; //Brute force
+    //output = abs(goalSpeed) * 1 + 9; //Uncomment this to use estimated constant output w/o speed control
 
-    //Serial.println(output);
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    //if (output < 0)
-    //  reverse = true;
-    //else
-    //  reverse = false;
-
-    if (goalSpeed == 0) {
-      baseMotorPower = 0;
+    if (goalSpeed == 0) {  // stop command ovverides PID
       errSum = 0;
       output = 0;
       dErr = 0;
     }
 
-    //    if (goalSpeed == 0)
-    //      output = 0;
-/*
-    Serial.print("Current Speed: ");
-    Serial.print(currentSpeed);
-    Serial.print(". Output: ");
-    Serial.println(output);
-*/
     delay(30);
     if (reverse) {
-      MotorCounterClockwise(abs(output));
+      MotorCounterClockwise(output);
     } else {
-      MotorClockwise(abs(output));
+      MotorClockwise(output);
     }
     delay(2);
   }
@@ -168,7 +120,7 @@ void loop() {
 
 void EncoderInit()
 {
-  // Attach interrupt at hall sensor A on each rising signal
+  // Attach interrupt at encoder channel A on each rising signal
   attachInterrupt(digitalPinToInterrupt(ENC_A), updateEncoder, RISING);
   //attachInterrupt(digitalPinToInterrupt(ENC_B), updateEncoder, RISING);
 

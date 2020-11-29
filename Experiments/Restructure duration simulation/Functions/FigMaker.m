@@ -64,7 +64,7 @@ set(hD(1),'linewidth',2,'color',map(1,:))
 set(hD(2),'linewidth',2,'color',map(2,:))
 set(hD(3),'linewidth',2,'color',map(3,:))
 set(hD(4),'linewidth',2,'color',map(4,:))
-
+set(gca, 'FontName', 'Myriad')
 axis([0,47,0,1])
 legend('Two Fingers','Three Fingers','Four Fingers','Five Fingers','location','southeast')
 %legend boxoff
@@ -117,7 +117,7 @@ set(hD(1),'linewidth',2,'color',map(1,:))
 set(hD(2),'linewidth',2,'color',map(1,:),'linestyle',':')
 set(hD(3),'linewidth',2,'color',map(2,:))
 set(hD(4),'linewidth',2,'color',map(2,:),'linestyle',':')
-
+set(gca, 'FontName', 'Myriad')
 axis([0,30,0,1])
 legend('Three Fingers, experiment','Three Fingers, simulation','Four Fingers, experiment','Four Fingers, simulation','location','northwest')
 %legend boxoff
@@ -139,6 +139,7 @@ plot(sort(D4),'d','color',map(3,:)); plot(sort(R4),'^','color',map(4,:));
 axis([0,50,5,27]);
 box off
 grid on
+set(gca, 'FontName', 'Myriad')
 xlabel('Restructure scenario #, sorted');
 ylabel('Duration of restructure (s)');
 

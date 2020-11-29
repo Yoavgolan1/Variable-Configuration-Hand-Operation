@@ -27,7 +27,7 @@ MODE = 'REAL_ROBOT'; %Uncomment this line to run on the robot. This
 a = InitArduino('COM10'); %Requires MATLAB Arduino Addon in REAL_ROBOT mode, and a connected Arduino Nano
 b = InitArduino_Conveyor('COM9');
 Robot_COM = 'COM2';
-InitRoboDK_Conveyer();
+InitRoboDK_Conveyor();
 
 %% Start motion
 CONVEYOR_SPEED = 80; %mm/sec
