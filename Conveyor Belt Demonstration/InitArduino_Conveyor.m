@@ -25,7 +25,7 @@ readData = fscanf(s);
 
 for ii=1:5 %connection attempts
     if isequal(readData(1:5),'Ready')
-        disp('Arduino initialized by serial connection');
+        disp('Conveyor belt Arduino initialized by serial connection');
         success = true;
         break
     end

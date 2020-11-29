@@ -18,7 +18,9 @@ while ~object_detected
     %gray_snap = gray_snap';
     [blobs,~] = basicImg2Blob(gray_snap);
     [object, object_type, confidence] = bestBlobMatch(blobs,library_of_objects);
-    confidence
+    if confidence>0
+        disp(['Confidence: ',num2str(confidence)]);
+    end
     if confidence>confidence_threshold
         object_detected = true;
         %figure();

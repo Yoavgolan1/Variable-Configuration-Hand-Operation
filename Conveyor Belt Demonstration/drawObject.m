@@ -17,7 +17,7 @@ Rotated_Hand_Center_Pixels = [Rotated_Hand_Center_Pixels(1),-Rotated_Hand_Center
 Hand_Center_Cam_Frame = Rotated_Hand_Center_Pixels + object.Centroid;
 hold on
 CTRPLT = plot(object.Centroid(1),object.Centroid(2),'xr');
-HCPLT = plot(Hand_Center_Cam_Frame(1),Hand_Center_Cam_Frame(2),'xg');
+%HCPLT = plot(Hand_Center_Cam_Frame(1),Hand_Center_Cam_Frame(2),'xg');
 
 poly = object_type.Polygon;
 poly_pix = poly;
@@ -30,11 +30,17 @@ ctr = object.Centroid;
 theta = object.Orientation;
 xMajor = ctr(1)  +  [ -1 +1 ] * object.MajorAxisLength*cosd(-theta)/2;
 yMajor = ctr(2)  +  [ -1 +1 ] * object.MajorAxisLength*sind(-theta)/2;
-axl = line(xMajor,yMajor);
+%axl = line(xMajor,yMajor);
 
 UFP = object_type.Untilted_Finger_Placements;
 TFP = UFP*R;
 TFP = [TFP(:,1),-TFP(:,2)];
 FP = TFP + object.Centroid;
+
+for ii=1:length(FP(:,1))
+    finger_line(ii) = plot([Hand_Center_Cam_Frame(1),FP(ii,1)],[Hand_Center_Cam_Frame(2),FP(ii,2)],'b-','LineWidth',4);
+end
+
+HCPLT = plot(Hand_Center_Cam_Frame(1),Hand_Center_Cam_Frame(2),'o','Color',[0.4660 0.6740 0.1880],'LineWidth',2,'MarkerFaceColor',[0.8500 0.3250 0.0980],'markersize',10);
 fpp1 = plot(FP(1,1),FP(1,2),'om','MarkerFaceColor','g');
 fpp2 = plot(FP(2:end,1),FP(2:end,2),'om','MarkerFaceColor',[1 1 1]);

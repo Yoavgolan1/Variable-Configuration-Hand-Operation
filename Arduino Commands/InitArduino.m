@@ -17,7 +17,7 @@ disp('Initializing Arduino...');
 a = arduino(COM_Port,'Mega2560','Libraries','rotaryEncoder');
 Stepper_Motor_On_Off(a,'OFF')
 configurePin(a,'D4','DigitalInput')
-disp('Arduino initialized.');
+disp('Robotic Hand Arduino initialized.');
 end
 
 % for ii=1:100

@@ -6,8 +6,8 @@ global Normal_Speed Slow_Speed Camera_Position pre_press_position_transl...
     press_position_transl Neutral_Position Above_Conveyor_Belt Robot_Speed
 pre_press_position_transl = transl(380,380,365);
 press_position_transl = transl(362,362,365);
-Normal_Speed = [100, 10, 100 ,10];
-Slow_Speed = [20, 10, 10, 10];
+Normal_Speed = [400, 40, 200 ,20];% [100, 10, 100 ,10]; %lin speed, joint speed, lin accel, joint accel
+Slow_Speed = [200, 20, 100 ,10]; %[20, 10, 10, 10];
 Robot_Speed = Slow_Speed; %Used to keep track of the current robot speed
 
 Neutral_Position = transl(0,-790,845)*roty(0)*rotz(90*pi/180);

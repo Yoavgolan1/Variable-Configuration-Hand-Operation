@@ -7,14 +7,19 @@ MOTOR_ACTIVATION_PIN = 'D11';
 DIR_PIN = 'D12';
 ENC_A_PIN = 'D18';
 ENC_B_PIN = 'D19';
-STEPPER_FREQUENCY = 3000; %Hz
 
 ppr = 1000*4; %Ticks per revolution for encoder
 mm_per_rev = 8;
 rev_per_mm = 1/mm_per_rev;
 ticks_per_mm = rev_per_mm*ppr;
 mm_per_tick = 1/ticks_per_mm;
-minspeed = 1; %rpm
+minspeed = 0.1; %rpm
+jamTimeout = 2; %seconds
+
+HIGH_SPEED = 3000; %Hz
+LOW_SPEED = 300; %Hz
+
+STEPPER_FREQUENCY = HIGH_SPEED;
 
 Initial_Distances = Hand_Configuration.Distances;
 Switch_Dir = 0;
@@ -29,7 +34,9 @@ encoder = rotaryEncoder(a,ENC_A_PIN,ENC_B_PIN,ppr);
 Init_count = count;
 
 Required_distance = abs(delta*ticks_per_mm)
-tic
+
+Start_time = now();
+
 %writePWMVoltage(a,MOTOR_ACTIVATION_PIN,2.5);
 playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
 
@@ -44,25 +51,24 @@ while abs(Init_count-count)<Required_distance
     %         %break
     %     end
     %abs(readSpeed(encoder))
-    time = toc;
+    time = (now()-Start_time)*100000;
     currentSpeed =  abs(readSpeed(encoder));
     
     if currentSpeed < minspeed 
-        minspeed = 0.05; %rpm
-        STEPPER_FREQUENCY = 200; %Hz
+        STEPPER_FREQUENCY = LOW_SPEED; %Hz
         playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
-        pause(0.1);
-    elseif currentSpeed > minspeed 
-        minspeed = 1;
-        STEPPER_FREQUENCY = 3000; %Hz
+        %pause(0.1);
+    elseif currentSpeed > minspeed*4 
+        STEPPER_FREQUENCY = HIGH_SPEED; %Hz
         playTone(a,MOTOR_ACTIVATION_PIN,STEPPER_FREQUENCY,30);
+        Start_time = now();
     end
-    if abs(readSpeed(encoder)) < minspeed && time>2
-        medspeed = median([readSpeed(encoder) readSpeed(encoder) readSpeed(encoder)]);
-        if medspeed < minspeed
+    if currentSpeed < minspeed && time > jamTimeout
+        %medspeed = median([readSpeed(encoder) readSpeed(encoder) readSpeed(encoder)]);
+        %if medspeed < minspeed
             warning('Motor jammed!')
             break
-        end
+        %end
     end
     % %     abs(Init_count-count)
 end

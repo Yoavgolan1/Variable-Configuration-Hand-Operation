@@ -16,7 +16,7 @@ Amount_Opened = [];
 if isequal(cmd,'OPEN') && close_amount == 0
     Largest_Dist = max(Hand_Configuration.Distances);
     Room_To_Move = r_max - Largest_Dist;
-    Amount_Opened = Room_To_Move/2;
+    Amount_Opened = Room_To_Move/3;
     This_Instruction{1}.Command = 'CHANGE_DIST';
     This_Instruction{1}.Value = Amount_Opened;
 elseif isequal(cmd,'OPEN') && close_amount ~= 0
