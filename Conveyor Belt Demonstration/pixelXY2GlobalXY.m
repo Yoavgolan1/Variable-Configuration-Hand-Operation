@@ -1,12 +1,13 @@
 function [X,Y] = pixelXY2GlobalXY(x,y)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%PIXELXY2GLOBALXY takes a camera frame point and converts it to a world
+%frame point in mm. 
+%   This function assumes that the camera is at the default conveyor belt
+%   camera position.
 global cam RDK one_mm_is_X_pixels
 if nargin < 2
     y = x(2);
     x = x(1);
 end
-%one_mm_is_X_pixels = (640-18)/420;
 RES_STR = cam.Resolution;
 x_loc = find(RES_STR=='x');
 RES_X = str2double(RES_STR(1:x_loc-1));

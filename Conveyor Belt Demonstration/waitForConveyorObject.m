@@ -1,6 +1,10 @@
 function [object, object_type] = waitForConveyorObject(confidence_threshold)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%WAITFORCONVEYOROBJECT runs until an object is detected by the hand camera
+%   The function will run until either an object is detected that is part
+%   of the object library, or until an unknown object is added to the
+%   library. The function returns the object blob parameters, as well as
+%   the object type from the library. A confidence threshold serves as the
+%   classifier for known/unknown objects.
 global cam
 if nargin<1
     confidence_threshold = 0.95;
@@ -23,22 +27,12 @@ while ~object_detected
     end
     if confidence>confidence_threshold
         object_detected = true;
-        %figure();
-        %imshow(snap);
-        %figure(2);
-        %imshow(gray_snap);
         disp([object_type.Name, ' detected.']);
     end
     if ~isempty(object)
         if confidence < confidence_threshold && (object.Centroid(1) > length(gray_snap(1,:))/3) && object.Centroid(1) < (length(gray_snap(1,:)) - length(gray_snap(1,:))/3) %if the object is in the center and the confidence is low, it must be a new object
-            
-            %[new_x,new_y] = pixelXY2GlobalXY(object.Centroid);
-            %x_from_hand_center = new_x - (-195.033) -(-263.7);
-            %y_from_hand_center = new_y - (-967.724);
-            %disp(['x: ',num2str(x_from_hand_center),'     y: ',num2str(y_from_hand_center)]);
-            %disp('New Type of object')
-            %return
-            %object.Centroid
+            disp('New Type of object')
+            addObjectToLibrary();
         end
     end
     if confidence_threshold==0

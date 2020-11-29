@@ -1,6 +1,7 @@
 function [confidence,corrected_blob] = compareBlobs(blob,lib_obj,last_pass)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+%COMPAREBLOBS comares two blobs are returns the confidence score, as well
+%as the corrected (flipped) blob.
+%   The comparison is done by one or more comparison criteria.
 if nargin<3
     last_pass = false;
 end

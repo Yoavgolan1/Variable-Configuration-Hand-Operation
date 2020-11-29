@@ -29,16 +29,16 @@ b = InitArduino_Conveyor('COM9');
 Robot_COM = 'COM2';
 InitRoboDK_Conveyor();
 
-%% Start motion
+%% Prepare motion
 CONVEYOR_SPEED = 80; %mm/sec
 Robot_Speed = Normal_Speed;
 robot.setSpeed(Robot_Speed);
 
 cam = webcam();
 
-%% Task 1 - Palletize distinct items
+%% Task - Palletize distinct items
 robot.MoveJ(Above_Conveyor_Belt);
-%Current_Object_Type = [];
+Current_Object_Type = [];
 new_type_of_object = false;
 Total_Number_Of_Objects = 7;
 Number_Of_New_Items = 0;
@@ -64,14 +64,12 @@ for ii=1:Total_Number_Of_Objects
         Execute_Instructions(Instructions,'ROBOT_BODY',a);
     end
     
-    %Robot_Speed = [200, 20, 100 ,10]; %lin speed, joint speed, lin accel, joint accel
-    %Robot_Speed = Normal_Speed;
     robot.setSpeed(Robot_Speed);
     [GC_x, GC_y, GC_theta] = getHandCenterInWorldFrame(object,object_type);
     Above_Object_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+safe_height+200)*roty(0)*rotz(GC_theta);
     robot.MoveL(Above_Object_Position)
     Amount_Opened = Open_or_Close_Hand(a,'OPEN');
-    if isequal(object_type.Name,'Pipe_Straight')
+    if isequal(object_type.Name,'Pipe_Straight') %Straight pipe is taller
         Grasp_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+55)*roty(0)*rotz(GC_theta);
     else
         Grasp_Position = transl(GC_x,GC_y,Conveyor_Belt_Height+40)*roty(0)*rotz(GC_theta);
@@ -90,9 +88,4 @@ for ii=1:Total_Number_Of_Objects
     robot.MoveL(Above_Drop_Off_Position)
     Open_or_Close_Hand(a,'CLOSE',Amount_Opened);
     robot.MoveJ(Above_Conveyor_Belt);
-    
-    
-    
-    %robot.setSpeed(Slow_Speed);
-    
 end

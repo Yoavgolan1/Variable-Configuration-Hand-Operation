@@ -1,6 +1,13 @@
 function [serial_arduino_object] = InitArduino_Conveyor(COM_Port,BaudRate)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+%INITARDUINO_CONVEYOR initializes the Arduino board that controls the
+%conveyor belt
+%   The conveyor belt in the demonstration is powered by a DC motor,
+%   controlled by an Arduino board using PID speed control. The speed
+%   control is performed on the board. Speed commands can be sent to the
+%   Arduino via serial communication. SPeed queries can be sent to the
+%   Arduino board through serial communication. This function initializes
+%   the communication.
+
 global MODE
 if nargin < 2
     BaudRate = 115200;

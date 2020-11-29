@@ -1,13 +1,9 @@
 function [] = setConveyorBeltSpeed(b,speed)
-
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%SETCONVEYORBELTSPEED sends a goal speed to the conveyor belt controller
+%   Goal speed is sent in mm/s by serial connection.
 
 success = false;
- 
 for ii=1:5 %attempts
-    %writedata=uint16(speed);
-    %fwrite(b,writedata,'uint16') %write data
     fprintf(b,num2str(speed));
     response = fscanf(b);
     if ~isempty(response)

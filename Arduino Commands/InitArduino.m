@@ -1,6 +1,8 @@
 function [a] = InitArduino(COM_Port)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%INITARDUINO initializes the hand's built-in Arduino board
+%   The in-hand Arduino board reads the encoder, buttons, and activates
+% the stepper motor via the Big Easy Driver motor driver. This function
+% initializes the Arduino.
 global MODE
 if isequal(MODE,'SIMULATION')
     a = [];
@@ -19,10 +21,3 @@ Stepper_Motor_On_Off(a,'OFF')
 configurePin(a,'D4','DigitalInput')
 disp('Robotic Hand Arduino initialized.');
 end
-
-% for ii=1:100
-%     writeDigitalPin(a,'D11',0)
-%     pause(0.01)
-% writeDigitalPin(a,'D11',1)
-% pause(0.01)
-% end

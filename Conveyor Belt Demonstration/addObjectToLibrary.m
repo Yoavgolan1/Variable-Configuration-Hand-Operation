@@ -1,6 +1,8 @@
 function [] = addObjectToLibrary(object_name,library_of_objects)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%ADDOBJECTTOLIBRARY enters a new object into the library.
+%   The function takes an object name and an existing library, and adds a
+%   blob object to the library wit hthe given name. THe blob is aquired by
+%   snapshot. If no name is given, a randomized name is generated.
 global cam one_mm_is_X_pixels N_Fingers
 if nargin<2
     load('object_library.mat','library_of_objects');
@@ -59,9 +61,6 @@ R = R(1:2,1:2); %Only use the Z reorientation part of the matrix for 2D
 plot(Grasp_Center(1,1),Grasp_Center(1,2),'.k');
 Untilted_Grasp_Center = Grasp_Center*R;
 Untilted_Finger_Placements = Grasp_Finger_Placements*R;
-
-%gray_snap_rotated = imrotate(gray_snap,-blob.Orientation);
-%imshow(gray_snap_rotated);
 
 blob.Name = object_name;
 blob.Untilted_Grasp_Center = Untilted_Grasp_Center;
